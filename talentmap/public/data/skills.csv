@@ -1,0 +1,67 @@
+id,name,category
+js,JavaScript,Engineering
+ts,TypeScript,Engineering
+react,React,Engineering
+node,Node.js,Engineering
+python,Python,Engineering
+java,Java,Engineering
+aws,AWS,Engineering
+docker,Docker,Engineering
+k8s,Kubernetes,Engineering
+ci-cd,CI/CD,Engineering
+ui-design,UI Design,Design
+ux-design,UX Design,Design
+figma,Figma,Design
+sketch,Sketch,Design
+adobe-xd,Adobe XD,Design
+prototyping,Prototyping,Design
+user-research,User Research,Design
+design-systems,Design Systems,Design
+product-strategy,Product Strategy,Product
+roadmapping,Roadmapping,Product
+user-stories,User Stories,Product
+agile,Agile,Product
+scrum,Scrum,Product
+data-analysis,Data Analysis,Product
+market-research,Market Research,Product
+stakeholder-mgmt,Stakeholder Management,Product
+digital-marketing,Digital Marketing,Marketing
+content-strategy,Content Strategy,Marketing
+seo,SEO,Marketing
+social-media,Social Media,Marketing
+analytics,Analytics,Marketing
+email-marketing,Email Marketing,Marketing
+brand-strategy,Brand Strategy,Marketing
+marketing-automation,Marketing Automation,Marketing
+team-leadership,Team Leadership,Management
+project-mgmt,Project Management,Management
+mentoring,Mentoring,Management
+recruiting,Recruiting,Management
+performance-mgmt,Performance Management,Management
+budget-mgmt,Budget Management,Management
+strategy,Strategic Planning,Management
+operations,Operations,Management
+sales-strategy,Sales Strategy,Sales
+negotiation,Negotiation,Sales
+account-mgmt,Account Management,Sales
+crm,CRM,Sales
+lead-gen,Lead Generation,Sales
+sales-ops,Sales Operations,Sales
+forecasting,Forecasting,Sales
+presentations,Presentations,Sales
+financial-analysis,Financial Analysis,Finance
+budgeting,Budgeting,Finance
+forecasting-fin,Financial Forecasting,Finance
+reporting,Financial Reporting,Finance
+accounting,Accounting,Finance
+risk-mgmt,Risk Management,Finance
+compliance,Compliance,Finance
+audit,Audit,Finance
+talent-mgmt,Talent Management,HR
+compensation,Compensation & Benefits,HR
+hr-ops,HR Operations,HR
+employee-relations,Employee Relations,HR
+training,Training & Development,HR
+hr-analytics,HR Analytics,HR
+dei,DEI,HR
+hr-compliance,HR Compliance,HR

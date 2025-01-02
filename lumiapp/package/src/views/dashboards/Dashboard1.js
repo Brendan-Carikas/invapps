@@ -5,6 +5,7 @@ import CreditCard from "./dashboard-components/CreditCard";
 import PlanCard from "./dashboard-components/PlanCard";
 import WhatsappCard from "./dashboard-components/WhatsappCard";
 import ConversationsList from "./dashboard-components/ConversationsList";
+import SupportQueriesCard from "./dashboard-components/SupportQueriesCard";
 
 const Dashboard1 = () => {
   const cardStyle = {
@@ -24,14 +25,17 @@ const Dashboard1 = () => {
       </Typography>
       <Grid container spacing={0}>
         {/* Row 1 - Stats Cards */}
-        <Grid item xs={12} sm={6} lg={4} sx={{ p: 1 }}>
+        <Grid item xs={12} sm={6} lg={3} sx={{ p: 1 }}>
           <CreditCard sx={cardStyle} />
         </Grid>
-        <Grid item xs={12} sm={6} lg={4} sx={{ p: 1, mt: { xs: 1, sm: 0 } }}>
+        <Grid item xs={12} sm={6} lg={3} sx={{ p: 1, mt: { xs: 1, sm: 0 } }}>
           <PlanCard sx={cardStyle} />
         </Grid>
-        <Grid item xs={12} sm={6} lg={4} sx={{ p: 1, mt: { xs: 1, sm: 0 } }}>
+        <Grid item xs={12} sm={6} lg={3} sx={{ p: 1, mt: { xs: 1, sm: 0 } }}>
           <WhatsappCard sx={cardStyle} />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3} sx={{ p: 1, mt: { xs: 1, sm: 0 } }}>
+          <SupportQueriesCard sx={cardStyle} />
         </Grid>
         
         {/* Row 2 - Conversations List */}

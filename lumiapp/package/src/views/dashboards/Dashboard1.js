@@ -20,7 +20,7 @@ const Dashboard1 = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h2" sx={{ mb: 3, marginLeft:3 }}>
+      <Typography variant="h2" sx={{ mb: 3, marginLeft:1.2 }}>
         Overview
       </Typography>
       <Grid container spacing={0}>

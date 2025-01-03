@@ -158,7 +158,7 @@ const Billing = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h2" sx={{ mb: 3, ml: 3 }}>
+      <Typography variant="h2" sx={{ mb: 3, ml: 1.2 }}>
         Plans
       </Typography>
       <Grid container spacing={3}>

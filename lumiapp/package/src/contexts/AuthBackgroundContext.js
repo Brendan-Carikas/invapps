@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AUTH_BG_KEY = 'auth_background_visible';
 const AUTH_BG_IMAGE_KEY = 'auth_background_image';
+const AUTH_BG_ALIGN_KEY = 'auth_background_align';
+const AUTH_MODAL_KEY = 'auth_background_modal';
 const AuthBackgroundContext = createContext();
 
 export function useAuthBackground() {
@@ -18,9 +20,19 @@ export function AuthBackgroundProvider({ children }) {
     return saved !== null ? JSON.parse(saved) : true;
   });
 
+  const [alignLeft, setAlignLeft] = useState(() => {
+    const saved = localStorage.getItem(AUTH_BG_ALIGN_KEY);
+    return saved !== null ? JSON.parse(saved) : false;
+  });
+
   const [customImage, setCustomImage] = useState(() => {
     const saved = localStorage.getItem(AUTH_BG_IMAGE_KEY);
     return saved || null;
+  });
+  
+  const [isModal, setIsModal] = useState(() => {
+    const saved = localStorage.getItem(AUTH_MODAL_KEY);
+    return saved !== null ? JSON.parse(saved) : false;
   });
   
   const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -30,8 +42,18 @@ export function AuthBackgroundProvider({ children }) {
     setUnsavedChanges(true);
   };
 
+  const handleAlignLeftChange = (newValue) => {
+    setAlignLeft(newValue);
+    setUnsavedChanges(true);
+  };
+
   const handleCustomImageChange = (newValue) => {
     setCustomImage(newValue);
+    setUnsavedChanges(true);
+  };
+
+  const handleModalChange = (newValue) => {
+    setIsModal(newValue);
     setUnsavedChanges(true);
   };
   
@@ -42,29 +64,41 @@ export function AuthBackgroundProvider({ children }) {
     } else {
       localStorage.removeItem(AUTH_BG_IMAGE_KEY);
     }
+    localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
     setUnsavedChanges(false);
   };
 
-  // Load initial values from localStorage
   useEffect(() => {
-    const savedVisibility = localStorage.getItem(AUTH_BG_KEY);
-    const savedImage = localStorage.getItem(AUTH_BG_IMAGE_KEY);
-    
-    if (savedVisibility !== null) {
-      setShowBackground(JSON.parse(savedVisibility));
+    localStorage.setItem(AUTH_BG_KEY, JSON.stringify(showBackground));
+  }, [showBackground]);
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_BG_ALIGN_KEY, JSON.stringify(alignLeft));
+  }, [alignLeft]);
+
+  useEffect(() => {
+    if (customImage) {
+      localStorage.setItem(AUTH_BG_IMAGE_KEY, customImage);
+    } else {
+      localStorage.removeItem(AUTH_BG_IMAGE_KEY);
     }
-    if (savedImage !== null) {
-      setCustomImage(savedImage);
-    }
-  }, []);
+  }, [customImage]);
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
+  }, [isModal]);
 
   const value = {
     showBackground,
     setShowBackground: handleShowBackgroundChange,
+    alignLeft,
+    setAlignLeft: handleAlignLeftChange,
     customImage,
     setCustomImage: handleCustomImageChange,
+    isModal,
+    setIsModal: handleModalChange,
     unsavedChanges,
-    saveChanges,
+    saveChanges
   };
 
   return (

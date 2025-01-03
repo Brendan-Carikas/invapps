@@ -28,9 +28,11 @@ const InvotraAdmin = () => {
   const { currentTheme, setTheme, unsavedChanges, saveTheme } = useTheme();
   const { 
     showBackground, 
-    setShowBackground, 
+    setShowBackground,
     customImage, 
     setCustomImage,
+    isModal,
+    setIsModal,
     unsavedChanges: backgroundUnsavedChanges,
     saveChanges: saveBackgroundChanges 
   } = useAuthBackground();
@@ -41,7 +43,11 @@ const InvotraAdmin = () => {
     { value: 'dark', label: 'Dark Theme' },
   ];
 
-  const [selectedOption, setSelectedOption] = React.useState('background');
+  const [selectedOption, setSelectedOption] = React.useState(() => {
+    if (showBackground && !isModal) return 'background';
+    if (showBackground && isModal) return 'alignleft';
+    return 'none';
+  });
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -60,11 +66,18 @@ const InvotraAdmin = () => {
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
+    if (option === 'background') {
+      setShowBackground(true);
+      setIsModal(false);
+    } else if (option === 'alignleft') {
+      setShowBackground(true);
+      setIsModal(true);
+    }
   };
 
   return (
     <Box p={3}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h2" gutterBottom sx={{ mb: 2 }}>
         Admin Panel
       </Typography>
       
@@ -88,17 +101,17 @@ const InvotraAdmin = () => {
                         color="primary"
                       />
                     }
-                    label="Show Background Image"
+                    label="Show Image"
                   />
                   
                   <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-                    Toggle to show or hide the background image on login and signup screens
+                    Toggle to show or hide image on login and signup screens
                   </Typography>
                 </Box>
 
                 <Box>
                   <Typography variant="subtitle2" gutterBottom>
-                    Custom Background Image
+                    Preview
                   </Typography>
                   <Box 
                     sx={{ 
@@ -162,24 +175,28 @@ const InvotraAdmin = () => {
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Background
+                  <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                     <Radio 
-                      sx={{ ml: 'auto' }} 
-                      checked={selectedOption === 'background'}
-                      onChange={() => handleOptionChange('background')}
+                      checked={showBackground && !isModal}
+                      onChange={() => {
+                        setShowBackground(true);
+                        setIsModal(false);
+                      }}
                     />
+                    Background style
                   </Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Align left
+                  <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                     <Radio 
-                      sx={{ ml: 'auto' }} 
-                      checked={selectedOption === 'alignleft'}
-                      onChange={() => handleOptionChange('alignleft')}
+                      checked={isModal}
+                      onChange={() => {
+                        setIsModal(true);
+                        setShowBackground(false);
+                      }}
                     />
+                    Modal style
                   </Typography>
                 </Box>
 

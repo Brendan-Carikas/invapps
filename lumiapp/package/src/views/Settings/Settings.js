@@ -106,7 +106,7 @@ const Settings = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h2" sx={{ mb: 3, ml: 3 }}>
+      <Typography variant="h2" sx={{ mb: 3, ml: 1.2 }}>
         Settings
       </Typography>
       
@@ -117,7 +117,7 @@ const Settings = () => {
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <WhatsAppIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h4">General</Typography>
+                <Typography variant="h5">General</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               
@@ -219,7 +219,7 @@ const Settings = () => {
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <TextSnippetIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h4">Instructions for AI Assistant</Typography>
+                <Typography variant="h5">Instructions for AI Assistant</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               
@@ -331,7 +331,7 @@ const Settings = () => {
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <FolderOpenIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h4">Knowledge Base</Typography>
+                <Typography variant="h5">Knowledge Base</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               <Typography variant="h6">If you upload files under Knowledge base, conversations with your AI assistant will include file contents. 

@@ -83,7 +83,7 @@ const MyBilling = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h2" sx={{ mb: 3, ml: 3 }}>
+      <Typography variant="h2" sx={{ mb: 3, ml: 1.2 }}>
         My Billing
       </Typography>
       
@@ -94,7 +94,7 @@ const MyBilling = () => {
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <AccountBalanceIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h4">Billing Overview</Typography>
+                <Typography variant="h5">Billing Overview</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               
@@ -122,7 +122,7 @@ const MyBilling = () => {
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <PaymentIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h4">Payment Methods</Typography>
+                <Typography variant="h5">Payment Methods</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               
@@ -163,7 +163,7 @@ const MyBilling = () => {
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <ReceiptIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h4">Billing History</Typography>
+                <Typography variant="h5">Billing History</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               

@@ -19,6 +19,7 @@ import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 import { useAuth } from "../../../contexts/AuthContext";
 
@@ -186,22 +187,23 @@ const Header = (props) => {
             },
           }}
         >
-          <MenuItem onClick={handleClose4}>
-            <Avatar
-              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=faces"
-              alt="Profile"
-              sx={{
-                width: "35px",
-                height: "35px",
+          <MenuItem>
+            <Link
+              to="/my-account/profile"
+              style={{ 
+                textDecoration: 'none',
+                color: 'inherit',
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%'
               }}
-            />
-            <Box
-              sx={{
-                ml: 2,
-              }}
+              onClick={handleClose4}
             >
+              <ListItemIcon>
+                <PersonOutlinedIcon fontSize="small" />
+              </ListItemIcon>
               My account
-            </Box>
+            </Link>
           </MenuItem>
           <Divider />
           <MenuItem onClick={handleLogout}>

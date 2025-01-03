@@ -15,6 +15,7 @@ const Settings = lazy(() => import("../views/Settings/Settings.js"));
 const MyBilling = lazy(() => import("../views/my-billing/MyBilling"));
 const BillDetails = lazy(() => import("../views/my-billing/BillDetails"));
 const InvotraAdmin = lazy(() => import("../views/admin/InvotraAdmin"));
+const MyAccount = lazy(() => import("../views/my-account/MyAccount"));
 
 const ThemeRoutes = [
   {
@@ -40,6 +41,14 @@ const ThemeRoutes = [
         element: <Settings />,
       },
       { path: "admin", element: <InvotraAdmin /> },
+    ],
+  },
+  {
+    path: "/my-account",
+    element: <FullLayout />,
+    children: [
+      { path: "", element: <Navigate to="profile" /> },
+      { path: "profile", element: <MyAccount /> },
     ],
   },
 ];

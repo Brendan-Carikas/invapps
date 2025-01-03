@@ -134,15 +134,18 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
 
   if (isModal) {
     return (
-      <Modal
-        open={true}
-        aria-labelledby="login-modal"
-        aria-describedby="login-modal-description"
-        sx={{
-          bgcolor: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(4px)',
-        }}
-      >
+      <Box sx={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        bgcolor: '#000000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1300,
+      }}>
         <Box sx={{
           ...modalStyle,
           bgcolor: 'background.default',
@@ -168,7 +171,7 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
             {formContent}
           </Box>
         </Box>
-      </Modal>
+      </Box>
     );
   }
 

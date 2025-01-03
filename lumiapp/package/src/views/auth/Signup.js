@@ -133,15 +133,18 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
 
   if (isModal) {
     return (
-      <Modal
-        open={true}
-        aria-labelledby="signup-modal"
-        aria-describedby="signup-modal-description"
-        sx={{
-          bgcolor: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(4px)',
-        }}
-      >
+      <Box sx={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        bgcolor: '#000000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1300,
+      }}>
         <Box sx={{
           ...modalStyle,
           bgcolor: 'background.default',
@@ -149,6 +152,11 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
           <Box sx={{
             flex: '1 1 60%',
             minHeight: '600px',
+            ...(showBackground && {
+              backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.jpg'})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            })
           }} />
           <Box sx={{
             flex: '1 1 40%',
@@ -162,7 +170,7 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
             {formContent}
           </Box>
         </Box>
-      </Modal>
+      </Box>
     );
   }
 

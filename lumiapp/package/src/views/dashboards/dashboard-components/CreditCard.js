@@ -13,7 +13,7 @@ const CreditCard = ({ sx }) => {
       <CardContent>
         <Box display="flex" alignItems="center" mb={2}>
           <CreditScoreIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-          <Typography variant="h4">Credits</Typography>
+          <Typography variant="h5">Credits</Typography>
         </Box>
         <Typography variant="h3" color="primary" gutterBottom>
           {remainingCredits}

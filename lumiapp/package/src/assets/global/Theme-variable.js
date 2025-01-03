@@ -129,6 +129,14 @@ const baseTheme = createTheme({
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white !important',
+          borderBottom: '1px solid rgb(0 0 0 / 12%)',
+        },
+      },
+    },
   },
   mixins: {
     toolbar: {

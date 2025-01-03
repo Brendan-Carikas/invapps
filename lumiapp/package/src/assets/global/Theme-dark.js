@@ -8,7 +8,7 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: "#6366f1",
+      main: "#818cf8",
       light: "#818cf8",
     },
     secondary: {
@@ -35,7 +35,7 @@ const darkTheme = createTheme({
     },
     text: {
       primary: "#f8fafc",
-      secondary: "#94a3b8",
+      secondary: "#ffffff",
       danger: "#f43f5e",
     },
   },
@@ -74,6 +74,7 @@ const darkTheme = createTheme({
         root: {
           backgroundColor: '#0B1215 !important',
           backgroundImage: 'none',
+          borderBottom: '1px solid rgba(248, 250, 252, 0.08)',
         },
       },
     },
@@ -116,7 +117,7 @@ const darkTheme = createTheme({
         root: {
           textTransform: "none",
           borderRadius: '50px !important',
-          fontWeight: '300 !important',
+          
 
 
           "&:hover": {

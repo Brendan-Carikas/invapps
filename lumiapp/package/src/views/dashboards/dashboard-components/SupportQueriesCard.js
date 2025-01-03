@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box, useTheme } from '@mui/material';
 import Chart from 'react-apexcharts';
+import SupportIcon from '@mui/icons-material/Support';
 
 const SupportQueriesCard = ({ sx }) => {
   const theme = useTheme();
@@ -15,7 +16,7 @@ const SupportQueriesCard = ({ sx }) => {
       height: 200,
     },
     labels: ['Completed', 'Outstanding'],
-    colors: [theme.palette.success.main, theme.palette.grey[300]],
+    colors: [theme.palette.primary.main, theme.palette.grey[300]],
     plotOptions: {
       pie: {
         donut: {
@@ -49,10 +50,14 @@ const SupportQueriesCard = ({ sx }) => {
     },
     tooltip: {
       enabled: true,
-      theme: theme.palette.mode,
+      theme: 'dark',
       style: {
         fontSize: '14px',
-        fontFamily: theme.typography.fontFamily
+        fontFamily: theme.typography.fontFamily,
+      },
+      custom: ({series, seriesIndex, dataPointIndex, w}) => {
+        return '<div style="padding: 8px; background: #000000; color: #ffffff;">' +
+               w.globals.labels[seriesIndex] + ': ' + series[seriesIndex] + '%</div>';
       }
     }
   };
@@ -62,7 +67,10 @@ const SupportQueriesCard = ({ sx }) => {
   return (
     <Card sx={sx}>
       <CardContent>
-        <Typography variant="h4" sx={{ mb: 4 }}>Support Queries</Typography>
+        <Box display="flex" alignItems="center" mb={2}>
+          <SupportIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
+          <Typography variant="h5">Support Queries</Typography>
+        </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Chart
             options={chartOptions}

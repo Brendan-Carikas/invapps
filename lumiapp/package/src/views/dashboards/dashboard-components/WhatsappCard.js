@@ -15,7 +15,7 @@ const WhatsappCard = ({ sx }) => {
       <CardContent>
         <Box display="flex" alignItems="center" mb={2}>
           <WhatsAppIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-          <Typography variant="h4">WhatsApp Number</Typography>
+          <Typography variant="h5">WhatsApp Number</Typography>
         </Box>
         <Typography variant="h3" color="primary" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
           {whatsappNumber}

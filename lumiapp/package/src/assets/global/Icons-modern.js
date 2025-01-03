@@ -24,7 +24,7 @@ const icons = {
     {
       props: { color: 'primary' },
       style: {
-        color: '#2563eb', // Modern blue
+        color: '#4f46e5', // Modern theme primary color
       },
     },
     {

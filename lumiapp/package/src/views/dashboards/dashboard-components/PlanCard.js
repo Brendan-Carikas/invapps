@@ -15,7 +15,7 @@ const PlanCard = ({ sx }) => {
       <CardContent>
         <Box display="flex" alignItems="center" mb={2}>
           <WorkspacePremiumIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-          <Typography variant="h4">Current Plan</Typography>
+          <Typography variant="h5">Current Plan</Typography>
         </Box>
         <Typography variant="h3" color="primary" gutterBottom>
           {currentPlan.name}

@@ -29,6 +29,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const Settings = () => {
   const [appName, setAppName] = useState('My AI Assistant');
@@ -228,7 +229,7 @@ const Settings = () => {
 
               <Box sx={{ mb: 3 }}>
                 <Accordion>
-                  <AccordionSummary>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h5">
                     Core purpose
                     </Typography>
@@ -257,7 +258,7 @@ const Settings = () => {
 
               <Box sx={{ mb: 3 }}>
                 <Accordion>
-                  <AccordionSummary>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h5">
                     Style and tone
                     </Typography>
@@ -286,7 +287,7 @@ const Settings = () => {
 
               <Box sx={{ mb: 3 }}>
                 <Accordion>
-                  <AccordionSummary>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h5">
                     Technical and troubleshooting
                     </Typography>
@@ -312,7 +313,6 @@ const Settings = () => {
                   
                 </Accordion>
               </Box>
-
 
               
 

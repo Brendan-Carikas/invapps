@@ -25,14 +25,14 @@ import PaletteIcon from '@mui/icons-material/Palette';
 
 const InvotraAdmin = () => {
   const { currentUser } = useAuth();
-  const { currentTheme, setCurrentTheme } = useTheme();
+  const { currentTheme, setTheme, unsavedChanges, saveTheme } = useTheme();
   const { 
     showBackground, 
     setShowBackground, 
     customImage, 
     setCustomImage,
-    unsavedChanges,
-    saveChanges 
+    unsavedChanges: backgroundUnsavedChanges,
+    saveChanges: saveBackgroundChanges 
   } = useAuthBackground();
 
   const themeOptions = [
@@ -40,6 +40,8 @@ const InvotraAdmin = () => {
     { value: 'modern', label: 'Modern Theme' },
     { value: 'dark', label: 'Dark Theme' },
   ];
+
+  const [selectedOption, setSelectedOption] = React.useState('background');
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -53,7 +55,11 @@ const InvotraAdmin = () => {
   };
 
   const handleThemeChange = (event) => {
-    setCurrentTheme(event.target.value);
+    setTheme(event.target.value);
+  };
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
   };
 
   return (
@@ -156,16 +162,38 @@ const InvotraAdmin = () => {
                 </Box>
 
                 <Box>
+                  <Typography variant="subtitle2" gutterBottom>
+                    Background
+                    <Radio 
+                      sx={{ ml: 'auto' }} 
+                      checked={selectedOption === 'background'}
+                      onChange={() => handleOptionChange('background')}
+                    />
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Typography variant="subtitle2" gutterBottom>
+                    Align left
+                    <Radio 
+                      sx={{ ml: 'auto' }} 
+                      checked={selectedOption === 'alignleft'}
+                      onChange={() => handleOptionChange('alignleft')}
+                    />
+                  </Typography>
+                </Box>
+
+                <Box>
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SaveIcon />}
-                    onClick={saveChanges}
-                    disabled={!unsavedChanges}
+                    onClick={saveBackgroundChanges}
+                    disabled={!backgroundUnsavedChanges}
                   >
                     Save Changes
                   </Button>
-                  {unsavedChanges && (
+                  {backgroundUnsavedChanges && (
                     <Typography variant="caption" color="warning.main" sx={{ ml: 2 }}>
                       You have unsaved changes
                     </Typography>
@@ -205,8 +233,25 @@ const InvotraAdmin = () => {
                 ))}
               </RadioGroup>
               
+              <Box mt={3}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<SaveIcon />}
+                  onClick={saveTheme}
+                  disabled={!unsavedChanges}
+                >
+                  Save Changes
+                </Button>
+                {unsavedChanges && (
+                  <Typography variant="caption" color="warning.main" sx={{ ml: 2 }}>
+                    You have unsaved changes
+                  </Typography>
+                )}
+              </Box>
+              
               <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
-                Select your preferred theme style. Changes will be applied immediately.
+                Select your preferred theme style. Changes will be saved and persisted.
               </Typography>
             </CardContent>
           </Card>

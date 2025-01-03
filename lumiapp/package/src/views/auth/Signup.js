@@ -18,8 +18,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LogoIcon from "../../layouts/FullLayout/Logo/LogoIcon";
 
 const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error }) => (
-  <Card sx={{ borderRadius: '12px' }}>
-    <CardContent>
+  <Card sx={{ borderRadius: '12px', maxWidth: '420px', width: '100%' }}>
+    <CardContent sx={{ padding: '32px !important' }}>
       <Box display="flex" justifyContent="center" mb={4}>
         <LogoIcon />
       </Box>
@@ -99,8 +99,8 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
 
           <Box sx={{ textAlign: "center" }}>
             <Typography variant="body2" color="textSecondary">
-              Already have an account?{" "}
-              <Link to="/login">
+              Already have an account? {" "}
+              <Link to="/login" style={{ color: 'inherit' }}>
                 Sign In
               </Link>
             </Typography>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -11,24 +11,35 @@ import {
   Button,
   Stack,
   IconButton,
+  RadioGroup,
+  Radio,
 } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { useAuthBackground } from "../../contexts/AuthBackgroundContext";
 import LoginIcon from '@mui/icons-material/Login';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ImageIcon from '@mui/icons-material/Image';
+import PaletteIcon from '@mui/icons-material/Palette';
 
 const InvotraAdmin = () => {
   const { currentUser } = useAuth();
+  const { currentTheme, setCurrentTheme } = useTheme();
   const { 
     showBackground, 
     setShowBackground, 
     customImage, 
     setCustomImage,
-    unsavedChanges, 
+    unsavedChanges,
     saveChanges 
   } = useAuthBackground();
+
+  const themeOptions = [
+    { value: 'core', label: 'Core Theme' },
+    { value: 'modern', label: 'Modern Theme' },
+    { value: 'dark', label: 'Dark Theme' },
+  ];
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -41,6 +52,10 @@ const InvotraAdmin = () => {
     }
   };
 
+  const handleThemeChange = (event) => {
+    setCurrentTheme(event.target.value);
+  };
+
   return (
     <Box p={3}>
       <Typography variant="h4" gutterBottom>
@@ -48,7 +63,7 @@ const InvotraAdmin = () => {
       </Typography>
       
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
               <Box display="flex" alignItems="center" mb={2}>
@@ -106,17 +121,16 @@ const InvotraAdmin = () => {
                       }}
                     />
                     {customImage ? (
-                      <Box>
+                      <Box sx={{ maxWidth: '400px', margin: '0 auto' }}>
                         <Box
                           component="img"
                           src={customImage}
                           alt="Custom background"
                           sx={{
                             width: '100%',
-                            maxHeight: '200px',
+                            aspectRatio: '4/3',
                             objectFit: 'cover',
                             borderRadius: 1,
-                            mb: 2,
                           }}
                         />
                         <IconButton
@@ -130,10 +144,10 @@ const InvotraAdmin = () => {
                     ) : (
                       <Box>
                         <ImageIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 1 }} />
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="textSecondary">
                           Click to upload a custom background image
                         </Typography>
-                        <Typography variant="caption" color="text.secondary" display="block">
+                        <Typography variant="caption" color="textSecondary" display="block">
                           Recommended size: 1920x1080px
                         </Typography>
                       </Box>
@@ -158,6 +172,42 @@ const InvotraAdmin = () => {
                   )}
                 </Box>
               </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Theme Selection Card */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent>
+              <Box display="flex" alignItems="center" mb={2}>
+                <IconButton color="primary" sx={{ width: 32, height: 32, mr: 2 }}>
+                  <PaletteIcon />
+                </IconButton>
+                <Typography variant="h5">Theme Settings</Typography>
+              </Box>
+              <Divider sx={{ mb: 3 }} />
+              
+              <RadioGroup
+                aria-label="theme"
+                name="theme"
+                value={currentTheme}
+                onChange={handleThemeChange}
+              >
+                {themeOptions.map((option) => (
+                  <FormControlLabel 
+                    key={option.value}
+                    value={option.value} 
+                    control={<Radio />} 
+                    label={option.label}
+                    sx={{ mb: 2 }}
+                  />
+                ))}
+              </RadioGroup>
+              
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
+                Select your preferred theme style. Changes will be applied immediately.
+              </Typography>
             </CardContent>
           </Card>
         </Grid>

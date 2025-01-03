@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box, useTheme } from '@mui/material';
 import Chart from 'react-apexcharts';
 
 const SupportQueriesCard = ({ sx }) => {
+  const theme = useTheme();
+  
   // Sample data - replace with actual data in production
   const completedQueries = 75;
   const outstandingQueries = 25;
@@ -13,7 +15,7 @@ const SupportQueriesCard = ({ sx }) => {
       height: 200,
     },
     labels: ['Completed', 'Outstanding'],
-    colors: ['#00c292', '#e0e0e0'],
+    colors: [theme.palette.success.main, theme.palette.grey[300]],
     plotOptions: {
       pie: {
         donut: {
@@ -23,7 +25,7 @@ const SupportQueriesCard = ({ sx }) => {
             total: {
               show: true,
               label: 'Total',
-              color: '#000',
+              color: theme.palette.text.primary,
               formatter: function (w) {
                 return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
               }
@@ -36,7 +38,7 @@ const SupportQueriesCard = ({ sx }) => {
       position: 'bottom',
       offsetY: 0,
       labels: {
-        colors: '#000'
+        colors: theme.palette.text.primary
       },
       formatter: function(seriesName, opts) {
         return seriesName + ": " + opts.w.globals.series[opts.seriesIndex]
@@ -47,14 +49,10 @@ const SupportQueriesCard = ({ sx }) => {
     },
     tooltip: {
       enabled: true,
-      theme: 'dark',
+      theme: theme.palette.mode,
       style: {
-        fontSize: '12px'
-      },
-      custom: function({ series, seriesIndex, w }) {
-        return '<div style="background: #000000; color: #ffffff; padding: 8px;">' +
-          w.config.labels[seriesIndex] + ': ' + series[seriesIndex] +
-          '</div>';
+        fontSize: '14px',
+        fontFamily: theme.typography.fontFamily
       }
     }
   };
@@ -64,16 +62,13 @@ const SupportQueriesCard = ({ sx }) => {
   return (
     <Card sx={sx}>
       <CardContent>
-        <Typography variant="h4" sx={{ mb: 2 }}>
-          Support Queries
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+        <Typography variant="h4" sx={{ mb: 4 }}>Support Queries</Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Chart
             options={chartOptions}
             series={series}
             type="donut"
-            height="100%"
-            width="100%"
+            height={300}
           />
         </Box>
       </CardContent>

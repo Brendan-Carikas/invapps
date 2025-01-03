@@ -1,7 +1,13 @@
 import React from "react";
-import logoicn from "../../../assets/images/lumi-site-log.png";
+import { useTheme } from "@mui/material";
+import logoNormal from "../../../assets/images/lumi-site-log.png";
+import logoReverse from "../../../assets/images/lumi-site-logo-reverse.png";
+
 const LogoIcon = (props) => {
-  return <img alt="Lumi" src={logoicn} height="40px" {...props} />;
+  const theme = useTheme();
+  const logo = theme.palette.mode === 'dark' ? logoReverse : logoNormal;
+  
+  return <img alt="Lumi" src={logo} height="40px" {...props} />;
 };
 
 export default LogoIcon;

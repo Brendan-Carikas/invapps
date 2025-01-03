@@ -1,17 +1,16 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import {baseTheme} from './assets/global/Theme-variable'
 import Themeroutes from "./routes/Router";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AuthBackgroundProvider } from "./contexts/AuthBackgroundContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const routing = useRoutes(Themeroutes);
-  const theme = baseTheme;
+  
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <AuthProvider>
         <AuthBackgroundProvider>
           <CssBaseline />
@@ -20,6 +19,6 @@ function App() {
       </AuthProvider>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

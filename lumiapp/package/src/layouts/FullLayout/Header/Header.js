@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -24,18 +23,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useAuth } from "../../../contexts/AuthContext";
 
 const Header = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorEl4, setAnchorEl4] = useState(null);
   const [anchorEl5, setAnchorEl5] = React.useState(null);
   const { logout } = useAuth();
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleClick4 = (event) => {
     setAnchorEl4(event.currentTarget);
@@ -147,41 +137,6 @@ const Header = (props) => {
         <Box flexGrow={1} />
 
         {/* ------------------------------------------- */}
-        {/* Notifications Dropdown */}
-        {/* ------------------------------------------- */}
-        <IconButton
-          aria-label="menu"
-          color="inherit"
-          aria-controls="notification-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <NotificationsNoneOutlinedIcon width="20" height="20" />
-        </IconButton>
-        <Menu
-          id="notification-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          transformOrigin={{ horizontal: "right", vertical: "top" }}
-          sx={{
-            "& .MuiMenu-paper": {
-              width: "200px",
-              right: 0,
-              top: "70px !important",
-            },
-          }}
-        >
-          <MenuItem onClick={handleClose}>Action</MenuItem>
-          <MenuItem onClick={handleClose}>Action Else</MenuItem>
-          <MenuItem onClick={handleClose}>Another Action</MenuItem>
-        </Menu>
-        {/* ------------------------------------------- */}
-        {/* End Notifications Dropdown */}
-        {/* ------------------------------------------- */}
-        {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}
         <Box
@@ -251,7 +206,7 @@ const Header = (props) => {
           <Divider />
           <MenuItem onClick={handleLogout}>
             <ListItemIcon>
-              <LogoutIcon sx={{ mr: 1, width: 20, height: 20 }} />
+              <LogoutIcon fontSize="small" />
             </ListItemIcon>
             Logout
           </MenuItem>

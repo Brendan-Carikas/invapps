@@ -455,7 +455,7 @@ const Settings = () => {
           
           
           
-          ,  
+          
           </Typography>
         </DialogContent>
         <DialogActions>

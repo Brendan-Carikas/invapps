@@ -143,14 +143,18 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
           backdropFilter: 'blur(4px)',
         }}
       >
-        <Box sx={modalStyle}>
+        <Box sx={{
+          ...modalStyle,
+          bgcolor: 'background.default',
+        }}>
           <Box sx={{
             flex: '1 1 60%',
-            backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.jpg'})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
             minHeight: '600px',
-            bgcolor: 'background.default',
+            ...(showBackground && {
+              backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.jpg'})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            })
           }} />
           <Box sx={{
             flex: '1 1 40%',

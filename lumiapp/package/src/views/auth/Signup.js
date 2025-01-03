@@ -27,7 +27,6 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
     transform: 'translate(-50%, -50%)',
     width: '90%',
     maxWidth: '1000px',
-    bgcolor: 'background.paper',
     borderRadius: '12px',
     overflow: 'hidden',
     display: 'flex',
@@ -143,14 +142,13 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
           backdropFilter: 'blur(4px)',
         }}
       >
-        <Box sx={modalStyle}>
+        <Box sx={{
+          ...modalStyle,
+          bgcolor: 'background.default',
+        }}>
           <Box sx={{
             flex: '1 1 60%',
-            backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.jpg'})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
             minHeight: '600px',
-            bgcolor: 'background.default',
           }} />
           <Box sx={{
             flex: '1 1 40%',

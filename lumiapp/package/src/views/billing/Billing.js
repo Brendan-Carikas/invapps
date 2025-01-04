@@ -39,8 +39,8 @@ const PricingCard = ({ title, price, queryLimit, overageCharges, features, butto
             right: 16,
             backgroundColor: theme.palette.primary.main,
             color: 'white',
-            padding: '4px 12px',
-            borderRadius: '16px',
+            padding: '4px 16px 6px 16px',
+            borderRadius: '24px',
           }}
         >
           <Typography variant="caption" sx={{ fontSize: '0.75rem' }}>
@@ -88,7 +88,7 @@ const PricingCard = ({ title, price, queryLimit, overageCharges, features, butto
           sx={{ 
             mt: 2,
             textTransform: 'none',
-            borderRadius: 2,
+            
             py: 1
           }}
         >

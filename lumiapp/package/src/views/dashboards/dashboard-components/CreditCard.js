@@ -10,7 +10,7 @@ const CreditCard = ({ sx }) => {
 
   return (
     <Card sx={sx}>
-      <CardContent>
+      <CardContent sx={{ height: '100%', pb: '32px !important', position: 'relative' }}>
         <Box display="flex" alignItems="center" mb={2}>
           <CreditScoreIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
           <Typography variant="h5">Credits</Typography>
@@ -29,13 +29,15 @@ const CreditCard = ({ sx }) => {
         <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
           Once the usage limit is reached, you can purchase further credit.
         </Typography>
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{ textTransform: 'none', borderRadius: 2 }}
-        >
-          Add credits
-        </Button>
+        <Box sx={{ position: 'absolute', bottom: '32px' }}>
+          <Button
+            variant="outlined"
+            color="primary"
+          
+          >
+            Add credits
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

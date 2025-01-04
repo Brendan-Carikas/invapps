@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 const PlanCard = ({ sx }) => {
   const currentPlan = {
-    name: 'Growth Plan',
+    name: 'Free Plan',
     period: 'Monthly',
-    nextBilling: '2024-01-20',
+    nextBilling: 'Jan 20, 2024'
   };
 
   return (
     <Card sx={sx}>
-      <CardContent>
+      <CardContent sx={{ height: '100%', pb: '32px !important', position: 'relative' }}>
         <Box display="flex" alignItems="center" mb={2}>
           <WorkspacePremiumIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
           <Typography variant="h5">Current Plan</Typography>
@@ -26,15 +26,17 @@ const PlanCard = ({ sx }) => {
         <Typography variant="body2" color="textSecondary" gutterBottom>
           Next billing: {currentPlan.nextBilling}
         </Typography>
-        <Button 
-          component={Link}
-          to="/app/billing"
-          variant="outlined" 
-          color="primary"
-          sx={{ mt: 2 }}
-        >
-          Upgrade Plan
-        </Button>
+        <Box sx={{ position: 'absolute', bottom: '32px' }}>
+          <Button 
+            component={Link}
+            to="/app/billing"
+            variant="outlined" 
+            color="primary"
+           
+          >
+            Upgrade Plan
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

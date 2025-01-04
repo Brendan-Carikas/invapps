@@ -40,7 +40,7 @@ const modernTheme = createTheme({
   },
 
   shape: {
-    borderRadius: 12, // More rounded corners
+    borderRadius: 0, // More rounded corners
   },
   components: {
     MuiCssBaseline: {
@@ -90,7 +90,7 @@ const modernTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          borderRadius: "8px",
+          borderRadius: "0px",
           fontWeight: 600,
           boxShadow: "none",
           "&:hover": {
@@ -116,7 +116,7 @@ const modernTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: "16px",
+          borderRadius: "0px",
           padding: "14px",
         
           boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -129,7 +129,7 @@ const modernTheme = createTheme({
     MuiListItem: {
       styleOverrides: {
         root: {
-          borderRadius: "8px",
+          borderRadius: "0px",
         },
       },
     },

@@ -125,7 +125,7 @@ const Settings = () => {
                 <Button
                   variant="outlined"
                   color="primary"
-                  startIcon={<WhatsAppIcon />}
+                  
                   sx={{ mb: 2, textTransform: 'none' }}
                   onClick={() => setWhatsappDialogOpen(true)}
                 >
@@ -343,7 +343,7 @@ const Settings = () => {
                 <Button
                   component="label"
                   variant="outlined"
-                  startIcon={<UploadFileIcon />}
+                 
                   sx={{ textTransform: 'none' }}
                 >
                   Upload files
@@ -392,7 +392,7 @@ const Settings = () => {
               variant="contained"
               color="primary"
               onClick={handleSave}
-              sx={{ textTransform: 'none', borderRadius: 2 }}
+              sx={{ textTransform: 'none' }}
             >
               Save Changes
             </Button>

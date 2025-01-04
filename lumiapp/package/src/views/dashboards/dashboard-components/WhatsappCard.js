@@ -12,23 +12,28 @@ const WhatsappCard = ({ sx }) => {
 
   return (
     <Card sx={sx}>
-      <CardContent>
+      <CardContent sx={{ height: '100%', pb: '32px !important', position: 'relative' }}>
         <Box display="flex" alignItems="center" mb={2}>
           <WhatsAppIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
           <Typography variant="h5">WhatsApp Number</Typography>
         </Box>
-        <Typography variant="h3" color="primary" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h3" color="primary" gutterBottom>
           {whatsappNumber}
-          <Button
-            onClick={handleCopy}
-            sx={{ ml: 2, minWidth: 'auto' }}
-          >
-            <ContentCopyIcon />
-          </Button>
         </Typography>
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body2" color="textSecondary" mb={2}>
           Use this number to connect your WhatsApp Business API
         </Typography>
+        <Box display="flex" justifyContent="flex-start" sx={{ position: 'absolute', bottom: '32px' }}>
+          <Button
+            onClick={handleCopy}
+            variant="outlined"
+            size="small"
+            
+            
+          >
+            Copy
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

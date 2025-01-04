@@ -147,8 +147,8 @@ const MyBilling = () => {
               
               <Button
                 variant="outlined"
-                startIcon={<AddIcon />}
-                sx={{ mt: 2, textTransform: 'none', borderRadius: 2 }}
+               
+                sx={{ mt: 2, textTransform: 'none' }}
                 onClick={() => setDialogOpen(true)}
               >
                 Add payment method

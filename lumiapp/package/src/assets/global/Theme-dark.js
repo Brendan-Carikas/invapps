@@ -102,7 +102,7 @@ const darkTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: "8px",
+          borderRadius: "16px",
           padding: "14px",
           backgroundColor: '#0B1215 !important',
           backgroundImage: 'none !important',
@@ -113,14 +113,18 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          borderRadius: "12px",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "none",
           borderRadius: '50px !important',
-          
-
-
           "&:hover": {
             boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3)",
           },

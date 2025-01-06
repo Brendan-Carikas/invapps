@@ -37,13 +37,15 @@ const PricingCard = ({ title, price, queryLimit, overageCharges, features, butto
             position: 'absolute',
             top: 16,
             right: 16,
-            backgroundColor: theme.palette.primary.main,
-            color: 'white',
+          
+            color: theme.palette.primary.main,
             padding: '4px 16px 6px 16px',
             borderRadius: '24px',
+            border: '1px solid',
+            borderColor: theme.palette.primary.main,
           }}
         >
-          <Typography variant="caption" sx={{ fontSize: '0.75rem' }}>
+          <Typography variant="caption" sx={{ fontSize: '0.75rem', fontWeight: 700 }}>
             Popular
           </Typography>
         </Box>
@@ -158,8 +160,11 @@ const Billing = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h2" sx={{ mb: 3, ml: 1.2 }}>
+      <Typography variant="h2" sx={{ mb: 1, ml: 1.2 }}>
         Plans
+      </Typography>
+      <Typography variant="subtitle1" sx={{ mb: 3, ml: 1.2, color: 'text.secondary' }}>
+        Flexible plans for your business
       </Typography>
       <Grid container spacing={3}>
         {plans.map((plan, index) => (

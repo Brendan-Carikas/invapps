@@ -238,4 +238,5 @@ const LoginNew = () => {
   );
 };
 
+export { LoginForm };
 export default LoginNew;

@@ -33,6 +33,8 @@ const InvotraAdmin = () => {
     setCustomImage,
     isModal,
     setIsModal,
+    isTwoColumn,
+    setIsTwoColumn,
     unsavedChanges: backgroundUnsavedChanges,
     saveChanges: saveBackgroundChanges 
   } = useAuthBackground();
@@ -44,7 +46,8 @@ const InvotraAdmin = () => {
   ];
 
   const [selectedOption, setSelectedOption] = React.useState(() => {
-    if (showBackground && !isModal) return 'background';
+    if (showBackground && !isModal && !isTwoColumn) return 'background';
+    if (showBackground && !isModal && isTwoColumn) return 'twocolumn';
     if (showBackground && isModal) return 'alignleft';
     return 'none';
   });
@@ -69,9 +72,15 @@ const InvotraAdmin = () => {
     if (option === 'background') {
       setShowBackground(true);
       setIsModal(false);
+      setIsTwoColumn(false);
     } else if (option === 'alignleft') {
       setShowBackground(true);
       setIsModal(true);
+      setIsTwoColumn(false);
+    } else if (option === 'twocolumn') {
+      setShowBackground(true);
+      setIsModal(false);
+      setIsTwoColumn(true);
     }
   };
 
@@ -177,10 +186,11 @@ const InvotraAdmin = () => {
                 <Box>
                   <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                     <Radio 
-                      checked={showBackground && !isModal}
+                      checked={showBackground && !isModal && !isTwoColumn}
                       onChange={() => {
                         setShowBackground(true);
                         setIsModal(false);
+                        setIsTwoColumn(false);
                       }}
                     />
                     Background style
@@ -192,11 +202,26 @@ const InvotraAdmin = () => {
                     <Radio 
                       checked={isModal}
                       onChange={() => {
-                        setIsModal(true);
                         setShowBackground(false);
+                        setIsModal(true);
+                        setIsTwoColumn(false);
                       }}
                     />
                     Modal style
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Radio 
+                      checked={isTwoColumn}
+                      onChange={() => {
+                        setShowBackground(true);
+                        setIsModal(false);
+                        setIsTwoColumn(true);
+                      }}
+                    />
+                    Two column
                   </Typography>
                 </Box>
 

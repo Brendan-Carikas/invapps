@@ -10,6 +10,7 @@ const AuthLayout = lazy(() => import("../layouts/AuthLayout/AuthLayout.js"));
 const Dashboard1 = lazy(() => import("../views/dashboards/Dashboard1.js"));
 const Billing = lazy(() => import("../views/billing/Billing.js"));
 const Login = lazy(() => import("../views/auth/Login.js"));
+const ModernLogin = lazy(() => import("../views/auth/ModernLogin.js"));
 const Signup = lazy(() => import("../views/auth/Signup.js"));
 const Settings = lazy(() => import("../views/Settings/Settings.js"));
 const MyBilling = lazy(() => import("../views/my-billing/MyBilling"));
@@ -23,8 +24,9 @@ const ThemeRoutes = [
     element: <AuthLayout />,
     children: [
       { path: "login", element: <Login /> },
+      { path: "modern-login", element: <ModernLogin /> },
       { path: "signup", element: <Signup /> },
-      { path: "", element: <Navigate to="/login" /> },
+      { path: "", element: <Navigate to="modern-login" /> },
     ],
   },
   {

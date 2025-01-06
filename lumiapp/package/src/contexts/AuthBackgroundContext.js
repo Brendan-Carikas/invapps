@@ -4,6 +4,7 @@ const AUTH_BG_KEY = 'auth_background_visible';
 const AUTH_BG_IMAGE_KEY = 'auth_background_image';
 const AUTH_BG_ALIGN_KEY = 'auth_background_align';
 const AUTH_MODAL_KEY = 'auth_background_modal';
+const AUTH_TWO_COLUMN_KEY = 'auth_background_two_column';
 const AuthBackgroundContext = createContext();
 
 export function useAuthBackground() {
@@ -34,6 +35,11 @@ export function AuthBackgroundProvider({ children }) {
     const saved = localStorage.getItem(AUTH_MODAL_KEY);
     return saved !== null ? JSON.parse(saved) : false;
   });
+
+  const [isTwoColumn, setIsTwoColumn] = useState(() => {
+    const saved = localStorage.getItem(AUTH_TWO_COLUMN_KEY);
+    return saved !== null ? JSON.parse(saved) : false;
+  });
   
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   
@@ -52,19 +58,26 @@ export function AuthBackgroundProvider({ children }) {
     setUnsavedChanges(true);
   };
 
-  const handleModalChange = (newValue) => {
+  const handleIsModalChange = (newValue) => {
     setIsModal(newValue);
+    setUnsavedChanges(true);
+  };
+
+  const handleIsTwoColumnChange = (newValue) => {
+    setIsTwoColumn(newValue);
     setUnsavedChanges(true);
   };
   
   const saveChanges = () => {
     localStorage.setItem(AUTH_BG_KEY, JSON.stringify(showBackground));
+    localStorage.setItem(AUTH_BG_ALIGN_KEY, JSON.stringify(alignLeft));
     if (customImage) {
       localStorage.setItem(AUTH_BG_IMAGE_KEY, customImage);
     } else {
       localStorage.removeItem(AUTH_BG_IMAGE_KEY);
     }
     localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
+    localStorage.setItem(AUTH_TWO_COLUMN_KEY, JSON.stringify(isTwoColumn));
     setUnsavedChanges(false);
   };
 
@@ -88,6 +101,14 @@ export function AuthBackgroundProvider({ children }) {
     localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
   }, [isModal]);
 
+  useEffect(() => {
+    localStorage.setItem(AUTH_TWO_COLUMN_KEY, JSON.stringify(isTwoColumn));
+  }, [isTwoColumn]);
+
+  useEffect(() => {
+    setUnsavedChanges(true);
+  }, [showBackground, alignLeft, customImage, isModal, isTwoColumn]);
+
   const value = {
     showBackground,
     setShowBackground: handleShowBackgroundChange,
@@ -96,7 +117,9 @@ export function AuthBackgroundProvider({ children }) {
     customImage,
     setCustomImage: handleCustomImageChange,
     isModal,
-    setIsModal: handleModalChange,
+    setIsModal: handleIsModalChange,
+    isTwoColumn,
+    setIsTwoColumn: handleIsTwoColumnChange,
     unsavedChanges,
     saveChanges
   };

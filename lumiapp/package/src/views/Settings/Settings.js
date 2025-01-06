@@ -21,6 +21,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Drawer,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -40,9 +41,9 @@ const Settings = () => {
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [connectedNumber, setConnectedNumber] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogOpen1, setDialogOpen1] = useState(false);
-  const [dialogOpen2, setDialogOpen2] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState('');
+  const [drawerTitle, setDrawerTitle] = useState('');
 
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
@@ -80,28 +81,14 @@ const Settings = () => {
     setWhatsappDialogOpen(false);
   };
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
+  const handleShowExample = (content, title) => {
+    setDrawerContent(content);
+    setDrawerTitle(title);
+    setDrawerOpen(true);
   };
 
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const handleDialogOpen1 = () => {
-    setDialogOpen1(true);
-  };
-
-  const handleDialogClose1 = () => {
-    setDialogOpen1(false);
-  };
-
-  const handleDialogOpen2 = () => {
-    setDialogOpen2(true);
-  };
-
-  const handleDialogClose2 = () => {
-    setDialogOpen2(false);
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
   };
 
   return (
@@ -249,10 +236,23 @@ const Settings = () => {
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
                       
-                      <Button variant="text" onClick={handleDialogOpen}>Show example</Button>
+                      <Button 
+                        variant="text" 
+                        onClick={() => handleShowExample(
+                          <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
+                            <li>You are an AI-powered support assistant for AJC Trailers' EasyCabin.</li>
+                            <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
+                            <li>Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries. </li>
+                            <li>You must respond only in UK English and use data strictly from the vector store.</li>
+                            <li>Never use public web content under any circumstances.</li>
+                          </ul>,
+                          'Core Purpose Example'
+                        )}
+                      >
+                        Show example
+                      </Button>
                     </Box>
                   </AccordionDetails>
-                  
                 </Accordion>
               </Box>
 
@@ -278,10 +278,24 @@ const Settings = () => {
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
                       
-                      <Button variant="text" onClick={handleDialogOpen1}>Show example</Button>
+                      <Button 
+                        variant="text" 
+                        onClick={() => handleShowExample(
+                          <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+                            <li>Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.</li>
+                            <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
+                            <li>Maintain short sentences and a conversational tone.</li>
+                            <li>Structure responses using clear sequential steps.</li>
+                            <li>Ensure each step addresses a single action or check before moving to the next.</li>
+                            <li>Comply with WCAG accessibility standards to maintain readability.</li>
+                          </ul>,
+                          'Style and Tone Example'
+                        )}
+                      >
+                        Show example
+                      </Button>
                     </Box>
                   </AccordionDetails>
-                  
                 </Accordion>
               </Box>
 
@@ -307,10 +321,38 @@ const Settings = () => {
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
                       
-                      <Button variant="text" onClick={handleDialogOpen2}>Show example</Button>
+                      <Button 
+                        variant="text" 
+                        onClick={() => handleShowExample(
+                          <>
+                            <h3>Step by step</h3>
+                            <p>To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.</p>
+                            <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '2' }}>
+                              <li><strong>Step 1:</strong> Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.</li>
+                              <li><strong>Step 2:</strong> Check if the hydraulic isolator switch is on. If it is off, switch it on.</li>
+                              <li><strong>Step 3:</strong> Check if the batteries are low. If they are, turn on the generator and try again.</li>
+                              <li><strong>Step 4:</strong> Check the hydraulic oil level. If it's low, fill the reservoir with oil.</li>
+                            </ul>
+                            <p>If these steps don't resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.</p>
+                            <hr />
+                            <h3>Does this answer your question?</h3>
+                            <p>If the customer replies Yes:</p>
+                            <p><strong>Response:</strong> "Great, glad we could help!"</p>
+                            <p>If the customer replies No:</p>
+                            <p><strong>Response:</strong> 😕 "Sorry about that—let's try again. Could you please summarise exactly what you are looking for or clarify your question?"</p>
+                            <hr />
+                            <h3>If no relevant information exists:</h3>
+                            <p>"It seems we don't have the specific details to answer your question. Our helpful team can assist you further. Please email us at info@easycabin.co.uk or call 01582 310894."</p>
+                            <h3>If a question is unrelated to EasyCabin products or mentions competitors:</h3>
+                            <p>"We're here to support you with EasyCabin products and parts. Unfortunately, your question seems unrelated to this. If you think this is incorrect, please contact our team at 01582 310894 or info@easycabin.co.uk."</p>
+                          </>,
+                          'Technical and Troubleshooting Example'
+                        )}
+                      >
+                        Show example
+                      </Button>
                     </Box>
                   </AccordionDetails>
-                  
                 </Accordion>
               </Box>
 
@@ -437,98 +479,27 @@ const Settings = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Example Instructions Dialog */}
-      <Dialog open={dialogOpen} onClose={handleDialogClose} fullWidth maxWidth="sm">
-        <DialogTitle sx={{ fontSize: '20px' }}>Sample instructions</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" color="textPrimary">
-          <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
-        <li>You are an AI-powered support assistant for AJC Trailers' EasyCabin.</li>
-        <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
-        <li>Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries. </li>
-        <li>You must respond only in UK English and use data strictly from the vector store.</li>
-        <li>Never use public web content under any circumstances.</li>
-      
-      </ul>
-          
-          
-          
-          
-          
-          
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Additional Dialog 1 */}
-      <Dialog open={dialogOpen1} onClose={handleDialogClose1} fullWidth maxWidth="sm">
-        <DialogTitle sx={{ fontSize: '20px' }}>Sample instructions</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" color="textPrimary">
-      
-      <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
-        <li>Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.</li>
-        <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
-        <li>Maintain short sentences and a conversational tone.</li>
-        <li>Structure responses using clear sequential steps.</li>
-        <li>Ensure each step addresses a single action or check before moving to the next.</li>
-        <li>Comply with WCAG accessibility standards to maintain readability.</li>
-      </ul>
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose1}>Close</Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Additional Dialog 2 */}
-      <Dialog open={dialogOpen2} onClose={handleDialogClose2} fullWidth maxWidth="sm">
-        <DialogTitle sx={{ fontSize: '20px' }}>Sample instructions</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" color="textPrimary">
-          <h3>Step by step</h3>
-          <p>To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.</p>
-      <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '2' }}>
-        <li>
-          <strong>Step 1:</strong> Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.
-        </li>
-        <li>
-          <strong>Step 2:</strong> Check if the hydraulic isolator switch is on. If it is off, switch it on.
-        </li>
-        <li>
-          <strong>Step 3:</strong> Check if the batteries are low. If they are, turn on the generator and try again.
-        </li>
-        <li>
-          <strong>Step 4:</strong> Check the hydraulic oil level. If it’s low, fill the reservoir with oil.
-        </li>
-      </ul>
-      <p>If these steps don’t resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.</p>
-
-      <hr />
-      <h3>Does this answer your question?</h3>
-   
-      <p>If the customer replies Yes:</p>
-      <p><strong>Response:</strong> "Great, glad we could help!"</p>
-      <p>If the customer replies No:</p>
-      <p><strong>Response:</strong> 😕 "Sorry about that—let’s try again. Could you please summarise exactly what you are looking for or clarify your question?"</p>
-
-      <hr />
-
-      
-      <h3>If no relevant information exists:</h3>
-      <p>"It seems we don’t have the specific details to answer your question. Our helpful team can assist you further. Please email us at info@easycabin.co.uk or call 01582 310894."</p>
-
-      <h3> If a question is unrelated to EasyCabin products or mentions competitors:</h3>
-      <p>"We’re here to support you with EasyCabin products and parts. Unfortunately, your question seems unrelated to this. If you think this is incorrect, please contact our team at 01582 310894 or info@easycabin.co.uk."</p>
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose2}>Close</Button>
-        </DialogActions>
-      </Dialog>
+      {/* Example Content Drawer */}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: '400px',
+            padding: '24px',
+          },
+        }}
+      >
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6">{drawerTitle}</Typography>
+          <Button onClick={handleDrawerClose}>Close</Button>
+        </Box>
+        <Divider sx={{ mb: 3 }} />
+        <Box>
+          {drawerContent}
+        </Box>
+      </Drawer>
     </Box>
   );
 };

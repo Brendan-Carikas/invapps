@@ -10,11 +10,6 @@ const Menuitems = [
     href: "/app/dashboards/dashboard1",
   },
   {
-    title: "Plans",
-    icon: AccountBalanceWalletOutlinedIcon,
-    href: "/app/billing",
-  },
-  {
     title: "My Billing",
     icon: AccountBalanceIcon,
     href: "/app/my-billing",

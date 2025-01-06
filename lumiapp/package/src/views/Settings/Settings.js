@@ -25,6 +25,7 @@ import {
   InputAdornment,
   Link,
   CardHeader,
+  Autocomplete,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -96,16 +97,51 @@ const Settings = () => {
     </>
   );
 
+  const addIdsToHeadings = (content) => {
+    if (!content || typeof content === 'string') return content;
+
+    let headingCount = 0;
+    const processElement = (element) => {
+      if (!element || !element.props) return element;
+
+      // Add id to h3 elements
+      if (element.type === 'h3') {
+        const id = `section-${headingCount++}`;
+        return React.cloneElement(element, { id });
+      }
+
+      // Process children
+      if (element.props.children) {
+        if (Array.isArray(element.props.children)) {
+          const newChildren = element.props.children.map(processElement);
+          return React.cloneElement(element, {}, ...newChildren);
+        } else {
+          const newChild = processElement(element.props.children);
+          return React.cloneElement(element, {}, newChild);
+        }
+      }
+
+      return element;
+    };
+
+    if (Array.isArray(content)) {
+      return content.map(processElement);
+    }
+    return processElement(content);
+  };
+
   const extractTableOfContents = (content) => {
     if (!content || typeof content === 'string') return [];
     
     const headings = [];
+    let headingCount = 0;
+    
     const extractFromElement = (element) => {
       if (!element || !element.props) return;
 
       // Check if it's an h3 element
       if (element.type === 'h3') {
-        const id = `section-${headings.length}`;
+        const id = `section-${headingCount++}`;
         headings.push({
           id,
           title: typeof element.props.children === 'string' 
@@ -135,38 +171,6 @@ const Settings = () => {
     return headings;
   };
 
-  const addIdsToHeadings = (content) => {
-    if (!content || typeof content === 'string') return content;
-
-    const processElement = (element) => {
-      if (!element || !element.props) return element;
-
-      // Add id to h3 elements
-      if (element.type === 'h3') {
-        const id = `section-${element.props.children.toString().toLowerCase().replace(/\s+/g, '-')}`;
-        return React.cloneElement(element, { id });
-      }
-
-      // Process children
-      if (element.props.children) {
-        if (Array.isArray(element.props.children)) {
-          const newChildren = element.props.children.map(processElement);
-          return React.cloneElement(element, {}, ...newChildren);
-        } else {
-          const newChild = processElement(element.props.children);
-          return React.cloneElement(element, {}, newChild);
-        }
-      }
-
-      return element;
-    };
-
-    if (Array.isArray(content)) {
-      return content.map(processElement);
-    }
-    return processElement(content);
-  };
-
   const handleShowExample = (content, title) => {
     const processedContent = addIdsToHeadings(content);
     setDrawerContent(processedContent);
@@ -176,70 +180,72 @@ const Settings = () => {
   };
 
   const scrollToSection = (id) => {
-    const contentElement = contentRef.current;
-    if (!contentElement) return;
+    setTimeout(() => {
+      const contentElement = contentRef.current;
+      if (!contentElement) return;
 
-    const targetElement = contentElement.querySelector(`[id="${id}"]`);
-    if (!targetElement) return;
+      const targetElement = contentElement.querySelector(`[id="${id}"]`);
+      if (!targetElement) return;
 
-    const offset = targetElement.offsetTop - contentElement.offsetTop;
-    contentElement.scrollTo({
-      top: offset - 20, // 20px padding from top
-      behavior: 'smooth'
-    });
+      const padding = 180; // Padding from top of scroll container
+      contentElement.scrollTo({
+        top: targetElement.offsetTop - padding,
+        behavior: 'smooth'
+      });
+    }, 100); // Small delay to ensure content is rendered
   };
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  const handleSearch = (event, value) => {
+    if (typeof value === 'string') {
+      setSearchTerm(value);
+    } else if (value && value.title) {
+      setSearchTerm(value.title);
+      scrollToSection(value.id);
+    } else {
+      setSearchTerm('');
+    }
   };
 
   const getFilteredContent = () => {
-    if (!searchTerm) {
-      return drawerContent;
-    }
+    if (!drawerContent) return null;
+    if (!searchTerm) return drawerContent;
 
-    const searchLower = searchTerm.toLowerCase();
-    
-    // For non-JSX content (plain text)
-    if (typeof drawerContent === 'string') {
-      if (drawerContent.toLowerCase().includes(searchLower)) {
-        return drawerContent;
+    const processElement = (element) => {
+      if (!element || !element.props) return element;
+
+      // If it's a text element and matches search, highlight it
+      if (typeof element.props.children === 'string' &&
+          element.props.children.toLowerCase().includes(searchTerm.toLowerCase())) {
+        return element;
       }
+
+      // Process children
+      if (element.props.children) {
+        if (Array.isArray(element.props.children)) {
+          const newChildren = element.props.children
+            .map(processElement)
+            .filter(child => child !== null);
+          if (newChildren.length > 0) {
+            return React.cloneElement(element, {}, ...newChildren);
+          }
+        } else {
+          const newChild = processElement(element.props.children);
+          if (newChild !== null) {
+            return React.cloneElement(element, {}, newChild);
+          }
+        }
+      }
+
       return null;
-    }
-
-    // For JSX content
-    const filterJSXContent = (element) => {
-      if (!element || !element.props) return null;
-
-      // If it's a text-only element
-      if (typeof element.props.children === 'string') {
-        return element.props.children.toLowerCase().includes(searchLower) ? element : null;
-      }
-
-      // If it's an array of elements
-      if (Array.isArray(element.props.children)) {
-        const filteredChildren = element.props.children
-          .map(child => {
-            if (typeof child === 'string') {
-              return child.toLowerCase().includes(searchLower) ? child : null;
-            }
-            return filterJSXContent(child);
-          })
-          .filter(Boolean);
-
-        if (filteredChildren.length === 0) return null;
-
-        return React.cloneElement(element, {}, ...filteredChildren);
-      }
-
-      // If it's a single element
-      const filteredChild = filterJSXContent(element.props.children);
-      return filteredChild ? React.cloneElement(element, {}, filteredChild) : null;
     };
 
-    const filteredContent = filterJSXContent(drawerContent);
-    return filteredContent || <Typography>No matching content found</Typography>;
+    if (Array.isArray(drawerContent)) {
+      const filtered = drawerContent
+        .map(processElement)
+        .filter(element => element !== null);
+      return filtered.length > 0 ? filtered : null;
+    }
+    return processElement(drawerContent);
   };
 
   const handleLogoChange = (event) => {
@@ -624,81 +630,62 @@ const Settings = () => {
         </Box>
         <Divider sx={{ mb: 3 }} />
         <Box sx={{ mb: 2 }}>
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Search content..."
+          <Autocomplete
+            freeSolo
+            options={extractTableOfContents(drawerContent)}
+            getOptionLabel={(option) => {
+              if (typeof option === 'string') {
+                return option;
+              }
+              return option.title || '';
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                fullWidth
+                size="small"
+                placeholder="Search content..."
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
             value={searchTerm}
             onChange={handleSearch}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
+            onInputChange={(event, value) => setSearchTerm(value)}
           />
         </Box>
         {drawerContent && (
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 'bold' }}>
-              Table of Contents
-            </Typography>
-            <List dense sx={{ pl: 2 }}>
-              {extractTableOfContents(drawerContent).map((heading) => (
-                <ListItem 
-                  key={heading.id} 
-                  sx={{ 
-                    p: 0.5,
-                    '&:hover': {
-                      backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                      borderRadius: 1,
-                    }
-                  }}
-                >
-                  <Link
-                    component="button"
-                    variant="body2"
-                    onClick={() => scrollToSection(heading.id)}
-                    sx={{ 
-                      textAlign: 'left',
-                      textDecoration: 'none',
-                      '&:hover': {
-                        textDecoration: 'underline',
-                      }
-                    }}
-                  >
-                    {heading.title}
-                  </Link>
-                </ListItem>
-              ))}
-            </List>
+          <Box 
+            ref={contentRef}
+            sx={{ 
+              maxHeight: 'calc(100vh - 250px)',
+              overflowY: 'auto',
+              pr: 1,
+              '&::-webkit-scrollbar': {
+                width: '8px',
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: '4px',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                },
+              },
+            }}
+          >
+            {getFilteredContent()}
           </Box>
         )}
-        <Box 
-          ref={contentRef}
-          sx={{ 
-            maxHeight: 'calc(100vh - 250px)',
-            overflowY: 'auto',
-            pr: 1,
-            '&::-webkit-scrollbar': {
-              width: '8px',
-            },
-            '&::-webkit-scrollbar-track': {
-              backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              borderRadius: '4px',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              borderRadius: '4px',
-              '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              },
-            },
-          }}
-        >
-          {getFilteredContent()}
-        </Box>
       </Drawer>
     </Box>
   );

@@ -26,6 +26,8 @@ import {
   Link,
   CardHeader,
   Autocomplete,
+  Paper,
+  Tooltip,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -36,6 +38,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const Settings = () => {
   const [appName, setAppName] = useState('My AI Assistant');
@@ -52,37 +55,358 @@ const Settings = () => {
   const [drawerContent, setDrawerContent] = useState('');
   const [drawerTitle, setDrawerTitle] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [copyTooltip, setCopyTooltip] = useState('Copy');
   const contentRef = useRef(null);
 
   const technicalContent = (
     <>
       <h3>Core purpose</h3>
       <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
-        <li>You are an AI-powered support assistant for AJC Trailers' EasyCabin.</li>
-        <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
-        <li>Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries. </li>
-        <li>You must respond only in UK English and use data strictly from the vector store.</li>
-        <li>Never use public web content under any circumstances.</li>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>You are an AI-powered support assistant for AJC Trailers' EasyCabin.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("You are an AI-powered support assistant for AJC Trailers' EasyCabin.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Prioritise clear, concise, and simple responses to minimise confusion.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Prioritise clear, concise, and simple responses to minimise confusion.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>You must respond only in UK English and use data strictly from the vector store.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("You must respond only in UK English and use data strictly from the vector store.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Never use public web content under any circumstances.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Never use public web content under any circumstances.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </ul>
       <h3>Style and tone</h3>
       <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
-        <li>Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.</li>
-        <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
-        <li>Maintain short sentences and a conversational tone.</li>
-        <li>Structure responses using clear sequential steps.</li>
-        <li>Ensure each step addresses a single action or check before moving to the next.</li>
-        <li>Comply with WCAG accessibility standards to maintain readability.</li>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Prioritise clear, concise, and simple responses to minimise confusion.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Prioritise clear, concise, and simple responses to minimise confusion.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Maintain short sentences and a conversational tone.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Maintain short sentences and a conversational tone.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Structure responses using clear sequential steps.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Structure responses using clear sequential steps.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Ensure each step addresses a single action or check before moving to the next.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Ensure each step addresses a single action or check before moving to the next.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box 
+          component={Paper} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            mb: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: 1,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 1,
+            position: 'relative',
+            zIndex: 1200
+          }}
+        >
+          <Typography flex={1}>Comply with WCAG accessibility standards to maintain readability.</Typography>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText("Comply with WCAG accessibility standards to maintain readability.")}
+              sx={{ mt: -0.5, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </ul>
       <h3>Technical and troubleshooting</h3>
       <h4>Step by step</h4>
-      <p>To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.</p>
-      <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '2' }}>
-        <li><strong>Step 1:</strong> Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.</li>
-        <li><strong>Step 2:</strong> Check if the hydraulic isolator switch is on. If it is off, switch it on.</li>
-        <li><strong>Step 3:</strong> Check if the batteries are low. If they are, turn on the generator and try again.</li>
-        <li><strong>Step 4:</strong> Check the hydraulic oil level. If it's low, fill the reservoir with oil.</li>
-      </ul>
-      <p>If these steps don't resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.</p>
+      <Box 
+        component={Paper} 
+        elevation={0} 
+        sx={{ 
+          p: 2, 
+          mb: 2, 
+          backgroundColor: 'rgba(0, 0, 0, 0.02)', 
+          border: '1px solid rgba(0, 0, 0, 0.1)',
+          borderRadius: 1,
+          position: 'relative',
+          zIndex: 1200
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
+          <Box>
+            <Typography paragraph sx={{ mb: 2 }}>To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.</Typography>
+            <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '2' }}>
+              <li><strong>Step 1:</strong> Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.</li>
+              <li><strong>Step 2:</strong> Check if the hydraulic isolator switch is on. If it is off, switch it on.</li>
+              <li><strong>Step 3:</strong> Check if the batteries are low. If they are, turn on the generator and try again.</li>
+              <li><strong>Step 4:</strong> Check the hydraulic oil level. If it's low, fill the reservoir with oil.</li>
+            </ul>
+            <Typography paragraph sx={{ mt: 2, mb: 0 }}>If these steps don't resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.</Typography>
+          </Box>
+          <Tooltip title={copyTooltip}>
+            <IconButton 
+              size="small" 
+              onClick={() => handleCopyText(`To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.
+
+Step 1: Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.
+Step 2: Check if the hydraulic isolator switch is on. If it is off, switch it on.
+Step 3: Check if the batteries are low. If they are, turn on the generator and try again.
+Step 4: Check the hydraulic oil level. If it's low, fill the reservoir with oil.
+
+If these steps don't resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.`)}
+              sx={{ mt: 0, zIndex: 1201 }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
       <hr />
       <h4>Does this answer your question?</h4>
       <p>If the customer replies Yes:</p>
@@ -248,6 +572,12 @@ const Settings = () => {
     return processElement(drawerContent);
   };
 
+  const handleCopyText = (text) => {
+    navigator.clipboard.writeText(text);
+    setCopyTooltip('Copied!');
+    setTimeout(() => setCopyTooltip('Copy'), 2000);
+  };
+
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -411,7 +741,7 @@ const Settings = () => {
                     'Instruction library'
                   )}
                 >
-                  Show examples
+                  Instruction library
                 </Button>
               }
             />

@@ -20,22 +20,25 @@ const PlanCard = ({ sx }) => {
         <Typography variant="h3" color="primary" gutterBottom>
           {currentPlan.name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" gutterBottom>
-          {currentPlan.period} Plan
-        </Typography>
-        <Typography variant="body2" color="textSecondary" gutterBottom>
-          Next billing: {currentPlan.nextBilling}
-        </Typography>
-        <Box sx={{ position: 'absolute', bottom: '32px' }}>
-          <Button 
-            component={Link}
-            to="/app/billing"
-            variant="outlined" 
-            color="primary"
-           
-          >
-            Upgrade Plan
-          </Button>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box>
+            <Typography variant="body2" color="textSecondary" gutterBottom>
+              {currentPlan.period} Plan
+            </Typography>
+            <Typography variant="body2" color="textSecondary" gutterBottom>
+              Next billing: {currentPlan.nextBilling}
+            </Typography>
+          </Box>
+          <Box>
+            <Button 
+              component={Link}
+              to="/app/billing"
+              variant="outlined" 
+              color="primary"
+            >
+              Upgrade Plan
+            </Button>
+          </Box>
         </Box>
       </CardContent>
     </Card>

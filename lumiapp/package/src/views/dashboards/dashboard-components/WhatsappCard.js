@@ -20,19 +20,21 @@ const WhatsappCard = ({ sx }) => {
         <Typography variant="h3" color="primary" gutterBottom>
           {whatsappNumber}
         </Typography>
-        <Typography variant="body2" color="textSecondary" mb={2}>
-          Use this number to connect your WhatsApp Business API
-        </Typography>
-        <Box display="flex" justifyContent="flex-start" sx={{ position: 'absolute', bottom: '32px' }}>
-          <Button
-            onClick={handleCopy}
-            variant="outlined"
-            size="small"
-            
-            
-          >
-            Copy
-          </Button>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box>
+            <Typography variant="body2" color="textSecondary" mb={2}>
+              Use this number to connect your WhatsApp Business API
+            </Typography>
+          </Box>
+          <Box>
+            <Button
+              onClick={handleCopy}
+              variant="outlined"
+              size="small"
+            >
+              Copy
+            </Button>
+          </Box>
         </Box>
       </CardContent>
     </Card>

@@ -13,6 +13,8 @@ import {
   IconButton,
   RadioGroup,
   Radio,
+  FormLabel,
+  FormControl,
 } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -29,28 +31,21 @@ const InvotraAdmin = () => {
   const { 
     showBackground, 
     setShowBackground,
+    isModal, 
+    setIsModal,
+    isTwoColumn, 
+    setIsTwoColumn,
     customImage, 
     setCustomImage,
-    isModal,
-    setIsModal,
-    isTwoColumn,
-    setIsTwoColumn,
     unsavedChanges: backgroundUnsavedChanges,
-    saveChanges: saveBackgroundChanges 
+    saveChanges: saveBackgroundChanges
   } = useAuthBackground();
 
   const themeOptions = [
-    { value: 'core', label: 'Core Theme' },
+    { value: 'light', label: 'Light Theme' },
     { value: 'modern', label: 'Modern Theme' },
     { value: 'dark', label: 'Dark Theme' },
   ];
-
-  const [selectedOption, setSelectedOption] = React.useState(() => {
-    if (showBackground && !isModal && !isTwoColumn) return 'background';
-    if (showBackground && !isModal && isTwoColumn) return 'twocolumn';
-    if (showBackground && isModal) return 'alignleft';
-    return 'none';
-  });
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -67,20 +62,20 @@ const InvotraAdmin = () => {
     setTheme(event.target.value);
   };
 
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    if (option === 'background') {
-      setShowBackground(true);
-      setIsModal(false);
-      setIsTwoColumn(false);
-    } else if (option === 'alignleft') {
+  const handleLoginStyleChange = (event) => {
+    const value = event.target.value;
+    if (value === 'modal') {
       setShowBackground(true);
       setIsModal(true);
       setIsTwoColumn(false);
-    } else if (option === 'twocolumn') {
+    } else if (value === 'twocolumn') {
       setShowBackground(true);
       setIsModal(false);
       setIsTwoColumn(true);
+    } else {
+      setShowBackground(true);
+      setIsModal(false);
+      setIsTwoColumn(false);
     }
   };
 
@@ -183,47 +178,46 @@ const InvotraAdmin = () => {
                   </Box>
                 </Box>
 
-                <Box>
-                  <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Radio 
-                      checked={showBackground && !isModal && !isTwoColumn}
-                      onChange={() => {
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Login Style</FormLabel>
+                  <RadioGroup
+                    aria-label="login-style"
+                    name="login-style"
+                    value={isModal ? 'modal' : isTwoColumn ? 'twocolumn' : 'default'}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === 'modal') {
                         setShowBackground(true);
-                        setIsModal(false);
-                        setIsTwoColumn(false);
-                      }}
-                    />
-                    Background style
-                  </Typography>
-                </Box>
-
-                <Box>
-                  <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Radio 
-                      checked={isModal}
-                      onChange={() => {
-                        setShowBackground(false);
                         setIsModal(true);
                         setIsTwoColumn(false);
-                      }}
-                    />
-                    Modal style
-                  </Typography>
-                </Box>
-
-                <Box>
-                  <Typography variant="body1" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Radio 
-                      checked={isTwoColumn}
-                      onChange={() => {
+                      } else if (value === 'twocolumn') {
                         setShowBackground(true);
                         setIsModal(false);
                         setIsTwoColumn(true);
-                      }}
+                      } else {
+                        setShowBackground(true);
+                        setIsModal(false);
+                        setIsTwoColumn(false);
+                      }
+                    }}
+                  >
+                    <FormControlLabel
+                      value="default"
+                      control={<Radio />}
+                      label="Default"
                     />
-                    Two column
-                  </Typography>
-                </Box>
+                    <FormControlLabel
+                      value="modal"
+                      control={<Radio />}
+                      label="Modal style"
+                    />
+                    <FormControlLabel
+                      value="twocolumn"
+                      control={<Radio />}
+                      label="Two column"
+                    />
+                  </RadioGroup>
+                </FormControl>
 
                 <Box>
                   <Button

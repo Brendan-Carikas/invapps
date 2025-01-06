@@ -26,17 +26,18 @@ const CreditCard = ({ sx }) => {
           value={progress} 
           sx={{ mb: 2, borderRadius: 1 }}
         />
-        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          Once the usage limit is reached, you can purchase further credit.
-        </Typography>
-        <Box sx={{ position: 'absolute', bottom: '32px' }}>
-          <Button
-            variant="outlined"
-            color="primary"
-          
-          >
-            Add credits
-          </Button>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="body2" color="textSecondary">
+            Once the usage limit is reached, you can purchase further credit.
+          </Typography>
+          <Box>
+            <Button
+              variant="outlined"
+              color="primary"
+            >
+              Add credits
+            </Button>
+          </Box>
         </Box>
       </CardContent>
     </Card>

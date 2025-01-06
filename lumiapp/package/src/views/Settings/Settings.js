@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Box,
   Typography,
@@ -22,6 +22,9 @@ import {
   AccordionSummary,
   AccordionDetails,
   Drawer,
+  InputAdornment,
+  Link,
+  CardHeader,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -31,10 +34,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Settings = () => {
   const [appName, setAppName] = useState('My AI Assistant');
-  const [instructions, setInstructions] = useState('');
+  const [corePurposeInstructions, setCorePurposeInstructions] = useState('');
+  const [styleToneInstructions, setStyleToneInstructions] = useState('');
+  const [technicalInstructions, setTechnicalInstructions] = useState('');
   const [files, setFiles] = useState([]);
   const [logo, setLogo] = useState(null);
   const [whatsappDialogOpen, setWhatsappDialogOpen] = useState(false);
@@ -44,6 +50,197 @@ const Settings = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState('');
   const [drawerTitle, setDrawerTitle] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const contentRef = useRef(null);
+
+  const technicalContent = (
+    <>
+      <h3>Core purpose</h3>
+      <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
+        <li>You are an AI-powered support assistant for AJC Trailers' EasyCabin.</li>
+        <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
+        <li>Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries. </li>
+        <li>You must respond only in UK English and use data strictly from the vector store.</li>
+        <li>Never use public web content under any circumstances.</li>
+      </ul>
+      <h3>Style and tone</h3>
+      <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
+        <li>Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.</li>
+        <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
+        <li>Maintain short sentences and a conversational tone.</li>
+        <li>Structure responses using clear sequential steps.</li>
+        <li>Ensure each step addresses a single action or check before moving to the next.</li>
+        <li>Comply with WCAG accessibility standards to maintain readability.</li>
+      </ul>
+      <h3>Technical and troubleshooting</h3>
+      <h4>Step by step</h4>
+      <p>To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.</p>
+      <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '2' }}>
+        <li><strong>Step 1:</strong> Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.</li>
+        <li><strong>Step 2:</strong> Check if the hydraulic isolator switch is on. If it is off, switch it on.</li>
+        <li><strong>Step 3:</strong> Check if the batteries are low. If they are, turn on the generator and try again.</li>
+        <li><strong>Step 4:</strong> Check the hydraulic oil level. If it's low, fill the reservoir with oil.</li>
+      </ul>
+      <p>If these steps don't resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.</p>
+      <hr />
+      <h4>Does this answer your question?</h4>
+      <p>If the customer replies Yes:</p>
+      <p><strong>Response:</strong> "Great, glad we could help!"</p>
+      <p>If the customer replies No:</p>
+      <p><strong>Response:</strong> 😕 "Sorry about that—let's try again. Could you please summarise exactly what you are looking for or clarify your question?"</p>
+      <hr />
+      <h3>If no relevant information exists:</h3>
+      <p>"It seems we don't have the specific details to answer your question. Our helpful team can assist you further. Please email us at info@easycabin.co.uk or call 01582 310894."</p>
+      <h3>If a question is unrelated to EasyCabin products or mentions competitors:</h3>
+      <p>"We're here to support you with EasyCabin products and parts. Unfortunately, your question seems unrelated to this. If you think this is incorrect, please contact our team at 01582 310894 or info@easycabin.co.uk."</p>
+    </>
+  );
+
+  const extractTableOfContents = (content) => {
+    if (!content || typeof content === 'string') return [];
+    
+    const headings = [];
+    const extractFromElement = (element) => {
+      if (!element || !element.props) return;
+
+      // Check if it's an h3 element
+      if (element.type === 'h3') {
+        const id = `section-${headings.length}`;
+        headings.push({
+          id,
+          title: typeof element.props.children === 'string' 
+            ? element.props.children 
+            : Array.isArray(element.props.children) 
+              ? element.props.children.join('') 
+              : element.props.children.toString(),
+        });
+      }
+
+      // Recursively check children
+      if (element.props.children) {
+        if (Array.isArray(element.props.children)) {
+          element.props.children.forEach(extractFromElement);
+        } else {
+          extractFromElement(element.props.children);
+        }
+      }
+    };
+
+    if (Array.isArray(content)) {
+      content.forEach(extractFromElement);
+    } else {
+      extractFromElement(content);
+    }
+
+    return headings;
+  };
+
+  const addIdsToHeadings = (content) => {
+    if (!content || typeof content === 'string') return content;
+
+    const processElement = (element) => {
+      if (!element || !element.props) return element;
+
+      // Add id to h3 elements
+      if (element.type === 'h3') {
+        const id = `section-${element.props.children.toString().toLowerCase().replace(/\s+/g, '-')}`;
+        return React.cloneElement(element, { id });
+      }
+
+      // Process children
+      if (element.props.children) {
+        if (Array.isArray(element.props.children)) {
+          const newChildren = element.props.children.map(processElement);
+          return React.cloneElement(element, {}, ...newChildren);
+        } else {
+          const newChild = processElement(element.props.children);
+          return React.cloneElement(element, {}, newChild);
+        }
+      }
+
+      return element;
+    };
+
+    if (Array.isArray(content)) {
+      return content.map(processElement);
+    }
+    return processElement(content);
+  };
+
+  const handleShowExample = (content, title) => {
+    const processedContent = addIdsToHeadings(content);
+    setDrawerContent(processedContent);
+    setDrawerTitle(title);
+    setDrawerOpen(true);
+    setSearchTerm('');
+  };
+
+  const scrollToSection = (id) => {
+    const contentElement = contentRef.current;
+    if (!contentElement) return;
+
+    const targetElement = contentElement.querySelector(`[id="${id}"]`);
+    if (!targetElement) return;
+
+    const offset = targetElement.offsetTop - contentElement.offsetTop;
+    contentElement.scrollTo({
+      top: offset - 20, // 20px padding from top
+      behavior: 'smooth'
+    });
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const getFilteredContent = () => {
+    if (!searchTerm) {
+      return drawerContent;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    
+    // For non-JSX content (plain text)
+    if (typeof drawerContent === 'string') {
+      if (drawerContent.toLowerCase().includes(searchLower)) {
+        return drawerContent;
+      }
+      return null;
+    }
+
+    // For JSX content
+    const filterJSXContent = (element) => {
+      if (!element || !element.props) return null;
+
+      // If it's a text-only element
+      if (typeof element.props.children === 'string') {
+        return element.props.children.toLowerCase().includes(searchLower) ? element : null;
+      }
+
+      // If it's an array of elements
+      if (Array.isArray(element.props.children)) {
+        const filteredChildren = element.props.children
+          .map(child => {
+            if (typeof child === 'string') {
+              return child.toLowerCase().includes(searchLower) ? child : null;
+            }
+            return filterJSXContent(child);
+          })
+          .filter(Boolean);
+
+        if (filteredChildren.length === 0) return null;
+
+        return React.cloneElement(element, {}, ...filteredChildren);
+      }
+
+      // If it's a single element
+      const filteredChild = filterJSXContent(element.props.children);
+      return filteredChild ? React.cloneElement(element, {}, filteredChild) : null;
+    };
+
+    const filteredContent = filterJSXContent(drawerContent);
+    return filteredContent || <Typography>No matching content found</Typography>;
+  };
 
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
@@ -81,14 +278,9 @@ const Settings = () => {
     setWhatsappDialogOpen(false);
   };
 
-  const handleShowExample = (content, title) => {
-    setDrawerContent(content);
-    setDrawerTitle(title);
-    setDrawerOpen(true);
-  };
-
   const handleDrawerClose = () => {
     setDrawerOpen(false);
+    setSearchTerm('');  // Reset search when closing drawer
   };
 
   return (
@@ -203,14 +395,21 @@ const Settings = () => {
         {/* Instructions */}
         <Grid item xs={12}>
           <Card sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
+            <CardHeader
+              title="Instructions for AI Assistant"
+              action={
+                <Button 
+                  variant="text" 
+                  onClick={() => handleShowExample(
+                    technicalContent,
+                    'Instruction library'
+                  )}
+                >
+                  Show examples
+                </Button>
+              }
+            />
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" mb={2}>
-                <TextSnippetIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h5">Instructions for AI Assistant</Typography>
-              </Box>
-              <Divider sx={{ mb: 3 }} />
-              
-              
               
               
 
@@ -222,36 +421,17 @@ const Settings = () => {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    
                     <TextField
                       fullWidth
                       multiline
                       rows={4}
-                      label="Instructions"
-                      value={instructions}
-                      onChange={(e) => setInstructions(e.target.value)}
+                      label="Core Purpose Instructions"
+                      value={corePurposeInstructions}
+                      onChange={(e) => setCorePurposeInstructions(e.target.value)}
                       variant="outlined"
-                      placeholder="Enter instructions for the AI assistant..."
+                      placeholder="Enter core purpose instructions for the AI assistant..."
                       sx={{ mt: 2 }}
                     />
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
-                      
-                      <Button 
-                        variant="text" 
-                        onClick={() => handleShowExample(
-                          <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '2'  }}>
-                            <li>You are an AI-powered support assistant for AJC Trailers' EasyCabin.</li>
-                            <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
-                            <li>Provide accurate, professional, and clear support to customers 24/7 regarding EasyCabin products, parts, and technical enquiries. </li>
-                            <li>You must respond only in UK English and use data strictly from the vector store.</li>
-                            <li>Never use public web content under any circumstances.</li>
-                          </ul>,
-                          'Core Purpose Example'
-                        )}
-                      >
-                        Show example
-                      </Button>
-                    </Box>
                   </AccordionDetails>
                 </Accordion>
               </Box>
@@ -264,37 +444,17 @@ const Settings = () => {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    
                     <TextField
                       fullWidth
                       multiline
                       rows={4}
-                      label="Instructions"
-                      value={instructions}
-                      onChange={(e) => setInstructions(e.target.value)}
+                      label="Style and Tone Instructions"
+                      value={styleToneInstructions}
+                      onChange={(e) => setStyleToneInstructions(e.target.value)}
                       variant="outlined"
-                      placeholder="Enter instructions for the AI assistant..."
+                      placeholder="Enter style and tone instructions for the AI assistant..."
                       sx={{ mt: 2 }}
                     />
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
-                      
-                      <Button 
-                        variant="text" 
-                        onClick={() => handleShowExample(
-                          <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
-                            <li>Use a polite, professional, approachable, and trustworthy tone, aligned with the EasyCabin brand.</li>
-                            <li>Prioritise clear, concise, and simple responses to minimise confusion.</li>
-                            <li>Maintain short sentences and a conversational tone.</li>
-                            <li>Structure responses using clear sequential steps.</li>
-                            <li>Ensure each step addresses a single action or check before moving to the next.</li>
-                            <li>Comply with WCAG accessibility standards to maintain readability.</li>
-                          </ul>,
-                          'Style and Tone Example'
-                        )}
-                      >
-                        Show example
-                      </Button>
-                    </Box>
                   </AccordionDetails>
                 </Accordion>
               </Box>
@@ -312,46 +472,13 @@ const Settings = () => {
                       fullWidth
                       multiline
                       rows={4}
-                      label="Instructions"
-                      value={instructions}
-                      onChange={(e) => setInstructions(e.target.value)}
+                      label="Technical Instructions"
+                      value={technicalInstructions}
+                      onChange={(e) => setTechnicalInstructions(e.target.value)}
                       variant="outlined"
-                      placeholder="Enter instructions for the AI assistant..."
+                      placeholder="Enter technical and troubleshooting instructions for the AI assistant..."
                       sx={{ mt: 2 }}
                     />
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
-                      
-                      <Button 
-                        variant="text" 
-                        onClick={() => handleShowExample(
-                          <>
-                            <h3>Step by step</h3>
-                            <p>To troubleshoot the issue, follow the steps below in order to identify and resolve the issue.</p>
-                            <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '2' }}>
-                              <li><strong>Step 1:</strong> Ensure you are in a safe environment and there are no immediate hazards. If it is safe, proceed with the steps below.</li>
-                              <li><strong>Step 2:</strong> Check if the hydraulic isolator switch is on. If it is off, switch it on.</li>
-                              <li><strong>Step 3:</strong> Check if the batteries are low. If they are, turn on the generator and try again.</li>
-                              <li><strong>Step 4:</strong> Check the hydraulic oil level. If it's low, fill the reservoir with oil.</li>
-                            </ul>
-                            <p>If these steps don't resolve the issue, let me know, and I can provide more detailed troubleshooting guidance.</p>
-                            <hr />
-                            <h3>Does this answer your question?</h3>
-                            <p>If the customer replies Yes:</p>
-                            <p><strong>Response:</strong> "Great, glad we could help!"</p>
-                            <p>If the customer replies No:</p>
-                            <p><strong>Response:</strong> 😕 "Sorry about that—let's try again. Could you please summarise exactly what you are looking for or clarify your question?"</p>
-                            <hr />
-                            <h3>If no relevant information exists:</h3>
-                            <p>"It seems we don't have the specific details to answer your question. Our helpful team can assist you further. Please email us at info@easycabin.co.uk or call 01582 310894."</p>
-                            <h3>If a question is unrelated to EasyCabin products or mentions competitors:</h3>
-                            <p>"We're here to support you with EasyCabin products and parts. Unfortunately, your question seems unrelated to this. If you think this is incorrect, please contact our team at 01582 310894 or info@easycabin.co.uk."</p>
-                          </>,
-                          'Technical and Troubleshooting Example'
-                        )}
-                      >
-                        Show example
-                      </Button>
-                    </Box>
                   </AccordionDetails>
                 </Accordion>
               </Box>
@@ -492,12 +619,85 @@ const Settings = () => {
         }}
       >
         <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h6">{drawerTitle}</Typography>
+          <Typography variant="h3">{drawerTitle}</Typography>
           <Button onClick={handleDrawerClose}>Close</Button>
         </Box>
         <Divider sx={{ mb: 3 }} />
-        <Box>
-          {drawerContent}
+        <Box sx={{ mb: 2 }}>
+          <TextField
+            fullWidth
+            size="small"
+            placeholder="Search content..."
+            value={searchTerm}
+            onChange={handleSearch}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        {drawerContent && (
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 'bold' }}>
+              Table of Contents
+            </Typography>
+            <List dense sx={{ pl: 2 }}>
+              {extractTableOfContents(drawerContent).map((heading) => (
+                <ListItem 
+                  key={heading.id} 
+                  sx={{ 
+                    p: 0.5,
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                      borderRadius: 1,
+                    }
+                  }}
+                >
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => scrollToSection(heading.id)}
+                    sx={{ 
+                      textAlign: 'left',
+                      textDecoration: 'none',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                      }
+                    }}
+                  >
+                    {heading.title}
+                  </Link>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        )}
+        <Box 
+          ref={contentRef}
+          sx={{ 
+            maxHeight: 'calc(100vh - 250px)',
+            overflowY: 'auto',
+            pr: 1,
+            '&::-webkit-scrollbar': {
+              width: '8px',
+            },
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
+              borderRadius: '4px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              borderRadius: '4px',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              },
+            },
+          }}
+        >
+          {getFilteredContent()}
         </Box>
       </Drawer>
     </Box>

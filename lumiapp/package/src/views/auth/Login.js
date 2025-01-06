@@ -22,7 +22,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LogoIcon from "../../layouts/FullLayout/Logo/LogoIcon";
 
-const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error }) => {
+const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error, onSignupClick }) => {
   const { showBackground, isModal, customImage } = useAuthBackground();
 
   const modalStyle = {
@@ -122,9 +122,19 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
           <Box sx={{ textAlign: "center" }}>
             <Typography variant="body2" color="textSecondary">
               Don't have an account? {" "}
-              <Link to="/signup" style={{ color: 'inherit' }}>
-                Sign up
-              </Link>
+              {onSignupClick ? (
+                <Button
+                  color="primary"
+                  onClick={onSignupClick}
+                  sx={{ textTransform: 'none', p: 0, minWidth: 'auto' }}
+                >
+                  Sign up
+                </Button>
+              ) : (
+                <Link to="/signup" style={{ color: 'inherit' }}>
+                  Sign up
+                </Link>
+              )}
             </Typography>
           </Box>
         </Stack>

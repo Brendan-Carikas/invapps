@@ -17,7 +17,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LogoIcon from "../../layouts/FullLayout/Logo/LogoIcon";
 
-const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error }) => {
+export const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error, onLoginClick, onToggleForm }) => {
   const { isModal, customImage, showBackground } = useAuthBackground();
 
   const modalStyle = {
@@ -50,216 +50,159 @@ const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPas
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3, width: '100%' }}>
+        <Alert severity="error" sx={{ mb: 3 }}>
           {error}
         </Alert>
       )}
 
-      <Box component="form" onSubmit={onSubmit} sx={{ width: '100%' }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="name"
-          label="Full Name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          autoComplete="name"
-          autoFocus
-          sx={{ mb: 3 }}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          autoComplete="email"
-          sx={{ mb: 3 }}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          id="password"
-          value={formData.password}
-          onChange={handleChange}
-          autoComplete="new-password"
-          sx={{ mb: 4 }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowPassword(!showPassword)}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+      <form onSubmit={onSubmit}>
+        <Stack spacing={3}>
+          <TextField
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
 
-        <Stack spacing={2}>
+          <TextField
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            fullWidth
+            required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <TextField
+            label="Confirm Password"
+            type={showPassword ? "text" : "password"}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+
           <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             size="large"
+            fullWidth
           >
             Sign Up
           </Button>
 
-          <Box sx={{ textAlign: "center" }}>
+          <Box sx={{ textAlign: 'center', mt: 2 }}>
             <Typography variant="body2" color="textSecondary">
-              Already have an account? {" "}
-              <Link to="/login" style={{ color: 'inherit' }}>
-                Sign In
-              </Link>
+              Already have an account?{' '}
+              {onLoginClick ? (
+                <Button
+                  color="primary"
+                  onClick={onLoginClick}
+                  sx={{ textTransform: 'none', p: 0, minWidth: 'auto' }}
+                >
+                  Sign in
+                </Button>
+              ) : (
+                <Link to="/login" style={{ color: 'inherit' }}>
+                  Sign in
+                </Link>
+              )}
             </Typography>
           </Box>
         </Stack>
-      </Box>
+      </form>
     </Box>
   );
 
   if (isModal) {
     return (
-      <Box sx={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        bgcolor: '#000000',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1300,
-      }}>
-        <Box sx={{
-          ...modalStyle,
-          bgcolor: 'background.default',
-        }}>
-          <Box sx={{
-            flex: '1 1 60%',
-            minHeight: '600px',
-            ...(showBackground && {
-              backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.jpg'})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            })
-          }} />
-          <Box sx={{
-            flex: '1 1 40%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bgcolor: 'background.paper',
-            p: 4,
-          }}>
-            {formContent}
-          </Box>
+      <Modal open={true}>
+        <Box sx={modalStyle}>
+          {showBackground && (
+            <Box
+              sx={{
+                flex: '1 1 60%',
+                backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.png'})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                display: { xs: 'none', md: 'block' }
+              }}
+            />
+          )}
+          {formContent}
         </Box>
-      </Box>
+      </Modal>
     );
   }
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        width: '100%',
-      }}
-    >
-      {formContent}
-    </Box>
-  );
+  return formContent;
 };
 
-const SignupNew = () => {
-  const { signup } = useAuth();
-  const { isModal, customImage, showBackground } = useAuthBackground();
+const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
+  const { signup } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
     try {
-      await signup(formData.email, formData.password, formData.name);
+      await signup(formData.email, formData.password);
     } catch (error) {
       setError("Failed to create an account");
     }
   };
 
-  if (!isModal) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          width: '100%',
-        }}
-      >
-        <SignupForm
-          onSubmit={handleSubmit}
-          formData={formData}
-          handleChange={handleChange}
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
-          error={error}
-        />
-      </Box>
-    );
-  }
+  const handleToggleForm = () => {
+    // Add your form toggle logic here
+  };
 
   return (
-    <Box sx={{ 
-      position: 'relative',
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
-      <SignupForm
-        onSubmit={handleSubmit}
-        formData={formData}
-        handleChange={handleChange}
-        showPassword={showPassword}
-        setShowPassword={setShowPassword}
-        error={error}
-      />
-    </Box>
+    <SignupForm
+      onSubmit={handleSubmit}
+      formData={formData}
+      handleChange={handleChange}
+      showPassword={showPassword}
+      setShowPassword={setShowPassword}
+      error={error}
+      onToggleForm={handleToggleForm}
+    />
   );
 };
 
-export default SignupNew;
+export default Signup;

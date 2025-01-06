@@ -6,20 +6,21 @@ import {
 } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAuthBackground } from '../../contexts/AuthBackgroundContext';
-import { useTheme } from '../../contexts/ThemeContext';
 import { LoginForm } from './Login';
+import { SignupForm } from './Signup';
 import authBg from '../../assets/images/auth-bg.png';
 
 const ModernLogin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const [isSignup, setIsSignup] = useState(false);
+  const { login, signup } = useAuth();
   const { customImage } = useAuthBackground();
-  const { currentTheme } = useTheme();
   const backgroundImage = customImage || authBg;
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
@@ -35,10 +36,28 @@ const ModernLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(formData.email, formData.password);
+      if (isSignup) {
+        if (formData.password !== formData.confirmPassword) {
+          setError("Passwords don't match");
+          return;
+        }
+        await signup(formData.email, formData.password);
+      } else {
+        await login(formData.email, formData.password);
+      }
     } catch (error) {
-      setError('Failed to log in');
+      setError(isSignup ? 'Failed to sign up' : 'Failed to log in');
     }
+  };
+
+  const toggleForm = () => {
+    setIsSignup(!isSignup);
+    setError('');
+    setFormData({
+      email: '',
+      password: '',
+      confirmPassword: '',
+    });
   };
 
   return (
@@ -54,7 +73,7 @@ const ModernLogin = () => {
         top: 0,
         left: 0,
         overflow: 'hidden',
-        backgroundColor: 'background.default'
+        bgcolor: muiTheme.palette.background.default
       }}
     >
       <Box
@@ -72,7 +91,7 @@ const ModernLogin = () => {
           width: '100%',
           maxWidth: { xs: '100%', md: '40%' },
           padding: { xs: 2, sm: 3, md: 4 },
-          bgcolor: 'background.paper',
+          bgcolor: muiTheme.palette.background.paper,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -80,27 +99,27 @@ const ModernLogin = () => {
           overflow: 'auto'
         }}
       >
-        <Box
-          display="flex"
-          justifyContent="center"
-          mb={4}
-        >
-          <img
-            src="/logo.png"
-            alt="company logo"
-            width="100px"
-            height="100px"
-            style={{ objectFit: 'contain' }}
+        {isSignup ? (
+          <SignupForm
+            onSubmit={handleSubmit}
+            formData={formData}
+            handleChange={handleChange}
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
+            error={error}
+            onLoginClick={toggleForm}
           />
-        </Box>
-        <LoginForm
-          onSubmit={handleSubmit}
-          formData={formData}
-          handleChange={handleChange}
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
-          error={error}
-        />
+        ) : (
+          <LoginForm
+            onSubmit={handleSubmit}
+            formData={formData}
+            handleChange={handleChange}
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
+            error={error}
+            onSignupClick={toggleForm}
+          />
+        )}
       </Box>
     </Box>
   );

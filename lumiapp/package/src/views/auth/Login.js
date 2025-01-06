@@ -11,11 +11,8 @@ import {
   Alert,
   InputAdornment,
   IconButton,
-  Card,
-  CardContent,
-  Modal,
+  Link,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAuthBackground } from "../../contexts/AuthBackgroundContext";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -32,7 +29,6 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
     transform: 'translate(-50%, -50%)',
     width: '90%',
     maxWidth: '1000px',
-    bgcolor: 'background.paper',
     borderRadius: '12px',
     overflow: 'hidden',
     display: 'flex',
@@ -40,12 +36,18 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
 
   const formContent = (
     <Box sx={{ 
-      width: isModal ? '400px' : '100%', 
-      maxWidth: '400px', 
-      p: isModal ? 4 : 3,
-      bgcolor: 'background.paper',
-      borderRadius: 2,
-      boxShadow: !isModal ? 1 : 'none'
+      width: '100%',
+      maxWidth: '400px',
+      p: 3,
+      mx: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      ...(showBackground && {
+        bgcolor: 'background.paper',
+        borderRadius: 2,
+        boxShadow: 1
+      })
     }}>
       <Box display="flex" justifyContent="center" mb={4}>
         <LogoIcon />
@@ -57,8 +59,8 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
 
       {error && (
         <Alert severity="error" sx={{ mb: 3, width: '100%' }}>
-        {error}
-      </Alert>
+          {error}
+        </Alert>
       )}
 
       <Box component="form" onSubmit={onSubmit} sx={{ width: '100%' }}>
@@ -160,45 +162,24 @@ const LoginForm = ({ onSubmit, formData, handleChange, showPassword, setShowPass
           ...modalStyle,
           bgcolor: 'background.default',
         }}>
-          <Box sx={{
-            flex: '1 1 60%',
-            minHeight: '600px',
-            ...(showBackground && {
-              backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.jpg'})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            })
-          }} />
-          <Box sx={{
-            flex: '1 1 40%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bgcolor: 'background.paper',
-            p: 4,
-          }}>
-            {formContent}
-          </Box>
+          {showBackground && (
+            <Box
+              sx={{
+                flex: '1 1 60%',
+                backgroundImage: `url(${customImage || '/static/images/backgrounds/auth-bg.png'})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                display: { xs: 'none', md: 'block' }
+              }}
+            />
+          )}
+          {formContent}
         </Box>
       </Box>
     );
   }
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        width: '100%',
-      }}
-    >
-      {formContent}
-    </Box>
-  );
+  return formContent;
 };
 
 const LoginNew = () => {

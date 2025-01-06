@@ -17,7 +17,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LogoIcon from "../../layouts/FullLayout/Logo/LogoIcon";
 
-export const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error, onLoginClick, onToggleForm }) => {
+export const SignupForm = ({ onSubmit, formData, handleChange, showPassword, setShowPassword, error, onLoginClick }) => {
   const { isModal, customImage, showBackground } = useAuthBackground();
 
   const modalStyle = {
@@ -34,12 +34,18 @@ export const SignupForm = ({ onSubmit, formData, handleChange, showPassword, set
 
   const formContent = (
     <Box sx={{ 
-      width: isModal ? '400px' : '100%', 
-      maxWidth: '400px', 
-      p: isModal ? 4 : 3,
-      bgcolor: 'background.paper',
-      borderRadius: 2,
-      boxShadow: !isModal ? 1 : 'none'
+      width: '100%',
+      maxWidth: '400px',
+      p: 3,
+      mx: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      ...(showBackground && {
+        bgcolor: 'background.paper',
+        borderRadius: 2,
+        boxShadow: 1
+      })
     }}>
       <Box display="flex" justifyContent="center" mb={4}>
         <LogoIcon />
@@ -50,12 +56,12 @@ export const SignupForm = ({ onSubmit, formData, handleChange, showPassword, set
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
+        <Alert severity="error" sx={{ mb: 3, width: '100%' }}>
           {error}
         </Alert>
       )}
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} style={{ width: '100%' }}>
         <Stack spacing={3}>
           <TextField
             label="Email"

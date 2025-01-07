@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAuth } from "../../../contexts/AuthContext";
 
 const Header = ({ sx, toggleSidebar }) => {
@@ -63,14 +62,6 @@ const Header = ({ sx, toggleSidebar }) => {
         )}
 
         <Box flexGrow={1} />
-        
-        <IconButton
-          size="large"
-          aria-label="show notifications"
-          color="inherit"
-        >
-          <NotificationsIcon />
-        </IconButton>
 
         <Button
           aria-controls="profile-menu"

@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import {
-  experimentalStyled,
-  useMediaQuery,
-  Container,
-  Box,
-} from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { experimentalStyled, useMediaQuery, Box, Container } from "@mui/material";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
-import Footer from "./Footer/Footer";
 import { TopbarHeight } from "../../assets/global/Theme-variable";
 
 const MainWrapper = experimentalStyled("div")(({ theme }) => ({
@@ -17,11 +11,11 @@ const MainWrapper = experimentalStyled("div")(({ theme }) => ({
   overflow: "hidden",
   width: "100%",
 }));
+
 const PageWrapper = experimentalStyled("div")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   overflow: "hidden",
-
   backgroundColor: theme.palette.background.default,
   [theme.breakpoints.up("lg")]: {
     paddingTop: TopbarHeight,
@@ -32,27 +26,25 @@ const PageWrapper = experimentalStyled("div")(({ theme }) => ({
 }));
 
 const FullLayout = () => {
-  //
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+  const location = useLocation();
+
   return (
     <MainWrapper>
       <Header
         sx={{
           paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#fbfbfb",
         }}
-        toggleSidebar={() => setSidebarOpen(!isSidebarOpen)}
-        toggleMobileSidebar={() => setMobileSidebarOpen(true)}
+        toggleSidebar={() => setMobileSidebarOpen(true)}
       />
-
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         isMobileSidebarOpen={isMobileSidebarOpen}
         onSidebarClose={() => setMobileSidebarOpen(false)}
       />
-
       <PageWrapper>
         <Container
           maxWidth={false}
@@ -61,10 +53,9 @@ const FullLayout = () => {
             paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
           }}
         >
-          <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+          <Box key={location.pathname} sx={{ minHeight: "calc(100vh - 170px)" }}>
             <Outlet />
           </Box>
-          <Footer />
         </Container>
       </PageWrapper>
     </MainWrapper>

@@ -8,7 +8,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const routing = useRoutes(Themeroutes);
-  
+
   return (
     <ThemeProvider>
       <AuthProvider>

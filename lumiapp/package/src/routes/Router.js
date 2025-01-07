@@ -1,23 +1,20 @@
-import { lazy } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 
-/****Layouts*****/
-const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
-const AuthLayout = lazy(() => import("../layouts/AuthLayout/AuthLayout.js"));
-/****End Layouts*****/
+// Layouts
+import FullLayout from "../layouts/FullLayout/FullLayout.js";
+import AuthLayout from "../layouts/AuthLayout/AuthLayout.js";
 
-/*****Pages******/
-const Dashboard1 = lazy(() => import("../views/dashboards/Dashboard1.js"));
-const Billing = lazy(() => import("../views/billing/Billing.js"));
-const Login = lazy(() => import("../views/auth/Login.js"));
-const ModernLogin = lazy(() => import("../views/auth/ModernLogin.js"));
-const LoginSelector = lazy(() => import("../views/auth/LoginSelector.js"));
-const Signup = lazy(() => import("../views/auth/Signup.js"));
-const Settings = lazy(() => import("../views/Settings/Settings.js"));
-const MyBilling = lazy(() => import("../views/my-billing/MyBilling"));
-const BillDetails = lazy(() => import("../views/my-billing/BillDetails"));
-const InvotraAdmin = lazy(() => import("../views/admin/InvotraAdmin"));
-const MyAccount = lazy(() => import("../views/my-account/MyAccount"));
+// Pages
+import Dashboard1 from "../views/dashboards/Dashboard1.js";
+import MyBilling from "../views/my-billing/MyBilling";
+import BillDetails from "../views/my-billing/BillDetails";
+import Settings from "../views/Settings/Settings.js";
+import LoginSelector from "../views/auth/LoginSelector.js";
+import ModernLogin from "../views/auth/ModernLogin.js";
+import Signup from "../views/auth/Signup.js";
+import InvotraAdmin from "../views/admin/InvotraAdmin";
+import MyAccount from "../views/my-account/MyAccount";
 
 const ThemeRoutes = [
   {
@@ -27,22 +24,18 @@ const ThemeRoutes = [
       { path: "login", element: <LoginSelector /> },
       { path: "modern-login", element: <ModernLogin /> },
       { path: "signup", element: <Signup /> },
-      { path: "", element: <Navigate to="login" /> },
+      { path: "", element: <Navigate to="/login" /> },
     ],
   },
   {
     path: "/app",
     element: <FullLayout />,
     children: [
-      { path: "", element: <Navigate to="dashboards/dashboard1" /> },
+      { path: "", element: <Navigate to="/app/dashboards/dashboard1" /> },
       { path: "dashboards/dashboard1", element: <Dashboard1 /> },
-      { path: "billing", element: <Billing /> },
       { path: "my-billing", element: <MyBilling /> },
       { path: "my-billing/:billId", element: <BillDetails /> },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
+      { path: "settings", element: <Settings /> },
       { path: "admin", element: <InvotraAdmin /> },
     ],
   },
@@ -50,7 +43,7 @@ const ThemeRoutes = [
     path: "/my-account",
     element: <FullLayout />,
     children: [
-      { path: "", element: <Navigate to="profile" /> },
+      { path: "", element: <Navigate to="/my-account/profile" /> },
       { path: "profile", element: <MyAccount /> },
     ],
   },

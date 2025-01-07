@@ -1,6 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Box,
   Drawer,
@@ -13,73 +12,63 @@ import {
 import { SidebarWidth } from "../../../assets/global/Theme-variable";
 import LogoIcon from "../Logo/LogoIcon";
 import Menuitems from "./data";
-import Buynow from "./Buynow";
 
 const Sidebar = (props) => {
-  const [open, setOpen] = React.useState(true);
   const { pathname } = useLocation();
-  const pathDirect = pathname;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
-
-  const handleClick = (index) => {
-    if (open === index) {
-      setOpen((prevopen) => !prevopen);
-    } else {
-      setOpen(index);
-    }
-  };
 
   const SidebarContent = (
     <Box sx={{ p: 3, height: "calc(100vh - 40px)" }}>
-      <Link to="/">
-        <Box sx={{ display: "flex", alignItems: "Center" }}>
+      <Link
+        to="/app/dashboards/dashboard1"
+        style={{ textDecoration: "none", color: "inherit" }}
+        onClick={() => !lgUp && props.onSidebarClose?.()}
+      >
+        <Box sx={{ display: "flex", alignItems: "Center", cursor: "pointer" }}>
           <LogoIcon />
         </Box>
       </Link>
 
-      <Box>
-        <List
-          sx={{
-            mt: 4,
-          }}
-        >
-          {Menuitems.map((item, index) => {
-            //{/********SubHeader**********/}
-
-            return (
-              <List component="li" disablePadding key={item.title}>
-                <ListItem
-                  onClick={() => handleClick(index)}
-                  button
-                  component={NavLink}
-                  to={item.href}
-                  selected={pathDirect === item.href}
-                  sx={{
-                    mb: 1,
-                    ...(pathDirect === item.href && {
+      <List sx={{ mt: 4 }}>
+        {Menuitems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.title}
+              to={item.href}
+              style={{ textDecoration: "none", color: "inherit" }}
+              onClick={() => !lgUp && props.onSidebarClose?.()}
+            >
+              <ListItem
+                sx={{
+                  mb: 1,
+                  cursor: "pointer",
+                  borderRadius: 1,
+                  ...(isActive && {
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "& .MuiListItemIcon-root": {
                       color: "white",
-                      backgroundColor: (theme) =>
-                        `${theme.palette.primary.main}!important`,
-                    }),
+                    },
+                  }),
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: "40px",
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      ...(pathDirect === item.href && { color: "white" }),
-                    }}
-                  >
-                    <item.icon width="20" height="20" />
-                  </ListItemIcon>
-                  <ListItemText>{item.title}</ListItemText>
-                </ListItem>
-              </List>
-            );
-          })}
-        </List>
-      </Box>
-      
+                  <item.icon />
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItem>
+            </Link>
+          );
+        })}
+      </List>
     </Box>
   );
+
   if (lgUp) {
     return (
       <Drawer
@@ -89,6 +78,8 @@ const Sidebar = (props) => {
         PaperProps={{
           sx: {
             width: SidebarWidth,
+            border: "0 !important",
+            boxShadow: "0px 7px 30px 0px rgb(113 122 131 / 11%)",
           },
         }}
       >
@@ -96,6 +87,7 @@ const Sidebar = (props) => {
       </Drawer>
     );
   }
+
   return (
     <Drawer
       anchor="left"
@@ -104,6 +96,7 @@ const Sidebar = (props) => {
       PaperProps={{
         sx: {
           width: SidebarWidth,
+          border: "0 !important",
         },
       }}
       variant="temporary"

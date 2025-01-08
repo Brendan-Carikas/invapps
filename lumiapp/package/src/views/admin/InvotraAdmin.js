@@ -27,7 +27,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 
 const InvotraAdmin = () => {
   const { currentUser } = useAuth();
-  const { currentTheme, setTheme, unsavedChanges, saveTheme } = useTheme();
+  const { currentTheme, handleThemeChange, unsavedChanges, saveTheme } = useTheme();
   const { 
     showBackground, 
     setShowBackground,
@@ -42,7 +42,7 @@ const InvotraAdmin = () => {
   } = useAuthBackground();
 
   const themeOptions = [
-    { value: 'light', label: 'Light Theme' },
+    { value: 'core', label: 'Core Theme' },
     { value: 'modern', label: 'Modern Theme' },
     { value: 'dark', label: 'Dark Theme' },
   ];
@@ -58,24 +58,28 @@ const InvotraAdmin = () => {
     }
   };
 
-  const handleThemeChange = (event) => {
-    setTheme(event.target.value);
+  const handleThemeSelect = (event) => {
+    handleThemeChange(event.target.value);
   };
 
   const handleLoginStyleChange = (event) => {
     const value = event.target.value;
-    if (value === 'modal') {
-      setShowBackground(true);
-      setIsModal(true);
-      setIsTwoColumn(false);
-    } else if (value === 'twocolumn') {
-      setShowBackground(true);
-      setIsModal(false);
-      setIsTwoColumn(true);
-    } else {
-      setShowBackground(true);
-      setIsModal(false);
-      setIsTwoColumn(false);
+    switch(value) {
+      case 'modal':
+        setShowBackground(true);
+        setIsModal(true);
+        setIsTwoColumn(false);
+        break;
+      case 'twocolumn':
+        setShowBackground(true);
+        setIsModal(false);
+        setIsTwoColumn(true);
+        break;
+      default: // 'default'
+        setShowBackground(true);
+        setIsModal(false);
+        setIsTwoColumn(false);
+        break;
     }
   };
 
@@ -184,37 +188,22 @@ const InvotraAdmin = () => {
                     aria-label="login-style"
                     name="login-style"
                     value={isModal ? 'modal' : isTwoColumn ? 'twocolumn' : 'default'}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === 'modal') {
-                        setShowBackground(true);
-                        setIsModal(true);
-                        setIsTwoColumn(false);
-                      } else if (value === 'twocolumn') {
-                        setShowBackground(true);
-                        setIsModal(false);
-                        setIsTwoColumn(true);
-                      } else {
-                        setShowBackground(true);
-                        setIsModal(false);
-                        setIsTwoColumn(false);
-                      }
-                    }}
+                    onChange={handleLoginStyleChange}
                   >
-                    <FormControlLabel
-                      value="default"
-                      control={<Radio />}
-                      label="Default"
+                    <FormControlLabel 
+                      value="default" 
+                      control={<Radio />} 
+                      label="Default Style"
                     />
-                    <FormControlLabel
-                      value="modal"
-                      control={<Radio />}
-                      label="Modal style"
+                    <FormControlLabel 
+                      value="modal" 
+                      control={<Radio />} 
+                      label="Modal Style"
                     />
-                    <FormControlLabel
-                      value="twocolumn"
-                      control={<Radio />}
-                      label="Two column"
+                    <FormControlLabel 
+                      value="twocolumn" 
+                      control={<Radio />} 
+                      label="Two Column Style"
                     />
                   </RadioGroup>
                 </FormControl>
@@ -256,7 +245,7 @@ const InvotraAdmin = () => {
                 aria-label="theme"
                 name="theme"
                 value={currentTheme}
-                onChange={handleThemeChange}
+                onChange={handleThemeSelect}
               >
                 {themeOptions.map((option) => (
                   <FormControlLabel 

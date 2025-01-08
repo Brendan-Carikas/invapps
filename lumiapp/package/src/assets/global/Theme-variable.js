@@ -1,19 +1,15 @@
-// import { createTheme } from "@material-ui/core/styles";
 import { createTheme } from "@mui/material/styles";
-import typography from "./Typography";
+import typography from "./Typography-modern";
 import shadows from "./Shadows";
+import icons from "./Icons-modern";
 
-// ##############################
+export const TopbarHeight = 70;
+export const SidebarWidth = 265;
 
-// // // Global Variables
-// ##############################
-
-const SidebarWidth = 265;
-const TopbarHeight = 70;
-
-const baseTheme = createTheme({
+export const baseTheme = createTheme({
   direction: "ltr",
   palette: {
+    mode: 'light',
     primary: {
       main: "#1B1464",
       light: "#e6f4ff",
@@ -23,13 +19,11 @@ const baseTheme = createTheme({
     },
     background: {
       default: "#fff",
+      paper: "#ffffff",
     },
     success: {
       main: "#39cb7f",
       contrastText: "#ffffff",
-    },
-    danger: {
-      main: "#fc4b6c",
     },
     error: {
       main: "#fc4b6c",
@@ -39,15 +33,18 @@ const baseTheme = createTheme({
       contrastText: "#ffffff",
     },
     text: {
+      primary: "#2a3547",
       secondary: "#777e89",
       danger: "#fc4b6c",
     },
   },
+  typography,
   shape: {
-    borderRadius: 5,
+    borderRadius: 8,
   },
-
+  shadows,
   components: {
+    ...icons,
     MuiCssBaseline: {
       styleOverrides: {
         "*": {
@@ -65,96 +62,26 @@ const baseTheme = createTheme({
         "#root": {
           height: "100%",
         },
-      },
-    },
-    MuiContainer: {
-      styleOverrides: {
-        root: {
-          paddingLeft: "15px !important",
-          paddingRight: "15px !important",
-          maxWidth: "1600px",
-          '&.auth-container': {
-            maxWidth: 'none',
-            padding: 0,
-            margin: 0,
-            width: '100%',
-          },
+        "*[dir='rtl'] .buyNowImg": {
+          transform: "scaleX(-1)",
         },
-      },
-    },
-
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-          boxShadow: "none",
-          "&:hover": {
-            boxShadow: "none",
-          },
+        ".buyNowImg": {
+          position: "absolute",
+          right: "-44px",
+          top: "-18px",
+          width: "143px",
+          height: "175px",
         },
-      },
-    },
-
-    MuiListItem: {
-      styleOverrides: {
-        root: {
-          borderRadius: "9px",
+        ".MuiCardHeader-action": {
+          alignSelf: "center !important",
         },
-      },
-    },
-
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          borderRadius: "20px",
-          padding: "14px",
-          margin: "15px",
+        ".scrollbar-container": {
+          borderRight: "0 !important",
         },
-      },
-    },
-
-    MuiListItemIcon: {
-      styleOverrides: {
-        root: {
-          minWidth: "40px",
-        },
-      },
-    },
-
-    MuiGridItem: {
-      styleOverrides: {
-        root: {
-          paddingTop: "30px",
-          paddingLeft: "30px !important",
-        },
-      },
-    },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: 'white !important',
-          borderBottom: '1px solid rgb(0 0 0 / 12%)',
+        "*[dir='rtl'] .welcomebg:before": {
+          backgroundPosition: "top -24px left -9px !important",
         },
       },
     },
   },
-  mixins: {
-    toolbar: {
-      color: "#949db2",
-      "@media(min-width:1280px)": {
-        minHeight: TopbarHeight,
-        padding: "0 30px",
-      },
-      "@media(max-width:1280px)": {
-        minHeight: "64px",
-      },
-    },
-  },
-  status: {
-    danger: "#e53e3e",
-  },
-  typography,
-  shadows,
 });
-
-export { TopbarHeight, SidebarWidth, baseTheme };

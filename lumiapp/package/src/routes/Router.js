@@ -1,5 +1,6 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 // Layouts
 import FullLayout from "../layouts/FullLayout/FullLayout.js";
@@ -16,20 +17,32 @@ import Signup from "../views/auth/Signup.js";
 import InvotraAdmin from "../views/admin/InvotraAdmin";
 import MyAccount from "../views/my-account/MyAccount";
 
+// Protected Route Component
+const PrivateRoute = ({ children }) => {
+  const { currentUser } = useAuth();
+  const location = useLocation();
+
+  if (!currentUser) {
+    return <Navigate to="/modern-login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
 const ThemeRoutes = [
   {
     path: "/",
     element: <AuthLayout />,
     children: [
-      { path: "login", element: <LoginSelector /> },
       { path: "modern-login", element: <ModernLogin /> },
       { path: "signup", element: <Signup /> },
-      { path: "", element: <Navigate to="/login" /> },
+      { path: "", element: <Navigate to="/modern-login" /> },
+      { path: "*", element: <Navigate to="/modern-login" /> },
     ],
   },
   {
     path: "/app",
-    element: <FullLayout />,
+    element: <PrivateRoute><FullLayout /></PrivateRoute>,
     children: [
       { path: "", element: <Navigate to="/app/dashboards/dashboard1" /> },
       { path: "dashboards/dashboard1", element: <Dashboard1 /> },
@@ -41,7 +54,7 @@ const ThemeRoutes = [
   },
   {
     path: "/my-account",
-    element: <FullLayout />,
+    element: <PrivateRoute><FullLayout /></PrivateRoute>,
     children: [
       { path: "", element: <Navigate to="/my-account/profile" /> },
       { path: "profile", element: <MyAccount /> },

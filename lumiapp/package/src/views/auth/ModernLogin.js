@@ -1,125 +1,177 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
-  useTheme as useMuiTheme,
-  useMediaQuery,
-} from '@mui/material';
-import { useAuth } from '../../contexts/AuthContext';
-import { useAuthBackground } from '../../contexts/AuthBackgroundContext';
-import { LoginForm } from './Login';
-import { SignupForm } from './Signup';
-import authBg from '../../assets/images/auth-bg.png';
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Button,
+  Stack,
+  Checkbox,
+  TextField,
+  Alert,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const ModernLogin = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isSignup, setIsSignup] = useState(false);
-  const { login, signup } = useAuth();
-  const { customImage } = useAuthBackground();
-  const backgroundImage = customImage || authBg;
-  const muiTheme = useMuiTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (isSignup) {
-        if (formData.password !== formData.confirmPassword) {
-          setError("Passwords don't match");
-          return;
-        }
-        await signup(formData.email, formData.password);
-      } else {
-        await login(formData.email, formData.password);
-      }
+      setError("");
+      setLoading(true);
+      await login(email, password);
+      navigate("/app/dashboards/dashboard1");
     } catch (error) {
-      setError(isSignup ? 'Failed to sign up' : 'Failed to log in');
+      console.error('Login error:', error);
+      setError(error.message || "Failed to log in");
     }
-  };
-
-  const toggleForm = () => {
-    setIsSignup(!isSignup);
-    setError('');
-    setFormData({
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
+    setLoading(false);
   };
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
-        width: '100vw',
-        height: '100vh',
-        margin: 0,
-        padding: 0,
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        overflow: 'hidden',
-        bgcolor: muiTheme.palette.background.default
+        position: "relative",
+        "&:before": {
+          content: '""',
+          background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
+          backgroundSize: "400% 400%",
+          animation: "gradient 15s ease infinite",
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+          opacity: "0.3",
+        },
       }}
     >
       <Box
         sx={{
-          flex: { xs: '1 1 auto', md: '1 1 60%' },
-          minHeight: { md: '100vh' },
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: { xs: 'none', md: 'block' }
-        }}
-      />
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: { xs: '100%', md: '40%' },
-          padding: { xs: 2, sm: 3, md: 4 },
-          bgcolor: muiTheme.palette.background.paper,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          height: '100vh',
-          overflow: 'auto'
+          position: "relative",
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "20px",
         }}
       >
-        {isSignup ? (
-          <SignupForm
-            onSubmit={handleSubmit}
-            formData={formData}
-            handleChange={handleChange}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            error={error}
-            onLoginClick={toggleForm}
-          />
-        ) : (
-          <LoginForm
-            onSubmit={handleSubmit}
-            formData={formData}
-            handleChange={handleChange}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            error={error}
-            onSignupClick={toggleForm}
-          />
-        )}
+        <Box
+          sx={{
+            maxWidth: "450px",
+            width: "100%",
+            backgroundColor: "white",
+            padding: "30px",
+            borderRadius: "12px",
+            boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <Typography
+            variant="h2"
+            fontWeight="700"
+            textAlign="center"
+            marginBottom="30px"
+          >
+            Welcome Back
+          </Typography>
+
+          {error && (
+            <Alert severity="error" sx={{ marginBottom: 2 }}>
+              {error}
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={2}>
+              <TextField
+                id="email"
+                label="Email"
+                variant="outlined"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+
+              <TextField
+                id="password"
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox defaultChecked />}
+                    label="Remember me"
+                  />
+                </FormGroup>
+                <Typography
+                  component={Link}
+                  to="/auth/forgot-password"
+                  fontWeight="500"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                  }}
+                >
+                  Forgot Password?
+                </Typography>
+              </Stack>
+
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+                disabled={loading}
+              >
+                Sign In
+              </Button>
+
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                  fontWeight="500"
+                >
+                  New to Lumi?
+                </Typography>
+                <Typography
+                  component={Link}
+                  to="/signup"
+                  fontWeight="500"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                  }}
+                >
+                  Create an Account
+                </Typography>
+              </Stack>
+            </Stack>
+          </form>
+        </Box>
       </Box>
     </Box>
   );

@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Container,
-  experimentalStyled,
-  useMediaQuery,
-} from "@mui/material";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { Outlet, useLocation } from "react-router-dom";
+import { experimentalStyled, useMediaQuery, Box, Container } from "@mui/material";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
 import { TopbarHeight } from "../../assets/global/Theme-variable";
@@ -35,23 +29,16 @@ const FullLayout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
-  const { currentUser } = useAuth();
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    if (!currentUser) {
-      navigate("/");
-    }
-  }, [currentUser, navigate]);
-
-  if (!currentUser) {
-    return null;
-  }
+  const location = useLocation();
 
   return (
     <MainWrapper>
-      <Header 
-        toggleMobileSidebar={() => setMobileSidebarOpen(!isMobileSidebarOpen)} 
+      <Header
+        sx={{
+          paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
+          backgroundColor: "#fbfbfb",
+        }}
+        toggleSidebar={() => setMobileSidebarOpen(true)}
       />
       <Sidebar
         isSidebarOpen={isSidebarOpen}
@@ -66,7 +53,7 @@ const FullLayout = () => {
             paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
           }}
         >
-          <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+          <Box key={location.pathname} sx={{ minHeight: "calc(100vh - 170px)" }}>
             <Outlet />
           </Box>
         </Container>

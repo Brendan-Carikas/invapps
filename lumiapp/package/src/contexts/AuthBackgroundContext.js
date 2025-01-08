@@ -43,34 +43,6 @@ export function AuthBackgroundProvider({ children }) {
   
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   
-  useEffect(() => {
-    if (unsavedChanges) {
-      localStorage.setItem(AUTH_BG_KEY, JSON.stringify(showBackground));
-      localStorage.setItem(AUTH_BG_ALIGN_KEY, JSON.stringify(alignLeft));
-      localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
-      localStorage.setItem(AUTH_TWO_COLUMN_KEY, JSON.stringify(isTwoColumn));
-      if (customImage) {
-        localStorage.setItem(AUTH_BG_IMAGE_KEY, customImage);
-      } else {
-        localStorage.removeItem(AUTH_BG_IMAGE_KEY);
-      }
-      setUnsavedChanges(false);
-    }
-  }, [showBackground, alignLeft, isModal, isTwoColumn, customImage, unsavedChanges]);
-
-  const saveChanges = () => {
-    localStorage.setItem(AUTH_BG_KEY, JSON.stringify(showBackground));
-    localStorage.setItem(AUTH_BG_ALIGN_KEY, JSON.stringify(alignLeft));
-    localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
-    localStorage.setItem(AUTH_TWO_COLUMN_KEY, JSON.stringify(isTwoColumn));
-    if (customImage) {
-      localStorage.setItem(AUTH_BG_IMAGE_KEY, customImage);
-    } else {
-      localStorage.removeItem(AUTH_BG_IMAGE_KEY);
-    }
-    setUnsavedChanges(false);
-  };
-
   const handleShowBackgroundChange = (newValue) => {
     setShowBackground(newValue);
     setUnsavedChanges(true);
@@ -86,15 +58,56 @@ export function AuthBackgroundProvider({ children }) {
     setUnsavedChanges(true);
   };
 
-  const handleModalChange = (newValue) => {
+  const handleIsModalChange = (newValue) => {
     setIsModal(newValue);
     setUnsavedChanges(true);
   };
 
-  const handleTwoColumnChange = (newValue) => {
+  const handleIsTwoColumnChange = (newValue) => {
     setIsTwoColumn(newValue);
     setUnsavedChanges(true);
   };
+  
+  const saveChanges = () => {
+    localStorage.setItem(AUTH_BG_KEY, JSON.stringify(showBackground));
+    localStorage.setItem(AUTH_BG_ALIGN_KEY, JSON.stringify(alignLeft));
+    if (customImage) {
+      localStorage.setItem(AUTH_BG_IMAGE_KEY, customImage);
+    } else {
+      localStorage.removeItem(AUTH_BG_IMAGE_KEY);
+    }
+    localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
+    localStorage.setItem(AUTH_TWO_COLUMN_KEY, JSON.stringify(isTwoColumn));
+    setUnsavedChanges(false);
+  };
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_BG_KEY, JSON.stringify(showBackground));
+  }, [showBackground]);
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_BG_ALIGN_KEY, JSON.stringify(alignLeft));
+  }, [alignLeft]);
+
+  useEffect(() => {
+    if (customImage) {
+      localStorage.setItem(AUTH_BG_IMAGE_KEY, customImage);
+    } else {
+      localStorage.removeItem(AUTH_BG_IMAGE_KEY);
+    }
+  }, [customImage]);
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_MODAL_KEY, JSON.stringify(isModal));
+  }, [isModal]);
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_TWO_COLUMN_KEY, JSON.stringify(isTwoColumn));
+  }, [isTwoColumn]);
+
+  useEffect(() => {
+    setUnsavedChanges(true);
+  }, [showBackground, alignLeft, customImage, isModal, isTwoColumn]);
 
   const value = {
     showBackground,
@@ -104,9 +117,9 @@ export function AuthBackgroundProvider({ children }) {
     customImage,
     setCustomImage: handleCustomImageChange,
     isModal,
-    setIsModal: handleModalChange,
+    setIsModal: handleIsModalChange,
     isTwoColumn,
-    setIsTwoColumn: handleTwoColumnChange,
+    setIsTwoColumn: handleIsTwoColumnChange,
     unsavedChanges,
     saveChanges
   };

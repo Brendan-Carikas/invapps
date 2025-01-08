@@ -40,11 +40,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-import { useTheme } from '../../contexts/ThemeContext';
-
 const Settings = () => {
-  const { currentTheme, handleThemeChange } = useTheme();
-
   const [appName, setAppName] = useState('My AI Assistant');
   const [corePurposeInstructions, setCorePurposeInstructions] = useState('');
   const [styleToneInstructions, setStyleToneInstructions] = useState('');

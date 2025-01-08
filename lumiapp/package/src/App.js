@@ -1,14 +1,14 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
+import Themeroutes from "./routes/Router";
 import { AuthProvider } from "./contexts/AuthContext";
-import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthBackgroundProvider } from "./contexts/AuthBackgroundContext";
-import ThemeRoutes from "./routes/Router";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
-  const routing = useRoutes(ThemeRoutes);
-  
+  const routing = useRoutes(Themeroutes);
+
   return (
     <ThemeProvider>
       <AuthProvider>

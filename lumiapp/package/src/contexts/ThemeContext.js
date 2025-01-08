@@ -4,37 +4,34 @@ import { baseTheme } from '../assets/global/Theme-variable';
 import modernTheme from '../assets/global/Theme-modern';
 import darkTheme from '../assets/global/Theme-dark';
 
+const THEME_KEY = 'app_theme';
 const ThemeContext = createContext();
 
 export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
+  return useContext(ThemeContext);
 };
-
-const THEME_KEY = 'selected_theme';
 
 export const ThemeProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState(() => {
     const savedTheme = localStorage.getItem(THEME_KEY);
     return savedTheme || 'core';
   });
-
   const [unsavedChanges, setUnsavedChanges] = useState(false);
 
-  const themes = {
-    core: baseTheme,
-    modern: modernTheme,
-    dark: darkTheme
+  const getTheme = (themeName) => {
+    switch (themeName) {
+      case 'modern':
+        return modernTheme;
+      case 'dark':
+        return darkTheme;
+      default:
+        return baseTheme;
+    }
   };
 
   const handleThemeChange = (newTheme) => {
-    if (themes[newTheme]) {
-      setCurrentTheme(newTheme);
-      setUnsavedChanges(true);
-    }
+    setCurrentTheme(newTheme);
+    setUnsavedChanges(true);
   };
 
   const saveTheme = () => {
@@ -42,23 +39,16 @@ export const ThemeProvider = ({ children }) => {
     setUnsavedChanges(false);
   };
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem(THEME_KEY);
-    if (savedTheme && themes[savedTheme]) {
-      setCurrentTheme(savedTheme);
-    }
-  }, []);
-
-  const theme = themes[currentTheme] || themes.core;
+  const value = {
+    currentTheme,
+    setTheme: handleThemeChange,
+    unsavedChanges,
+    saveTheme,
+  };
 
   return (
-    <ThemeContext.Provider value={{
-      currentTheme,
-      handleThemeChange,
-      unsavedChanges,
-      saveTheme
-    }}>
-      <MuiThemeProvider theme={theme}>
+    <ThemeContext.Provider value={value}>
+      <MuiThemeProvider theme={getTheme(currentTheme)}>
         {children}
       </MuiThemeProvider>
     </ThemeContext.Provider>

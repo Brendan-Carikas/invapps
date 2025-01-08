@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.js": "./static/js/main.31525983.js",
-    "static/js/289.71e415f3.chunk.js": "./static/js/289.71e415f3.chunk.js",
-    "static/js/787.89ba96d7.chunk.js": "./static/js/787.89ba96d7.chunk.js",
-    "static/media/auth-bg.png": "./static/media/auth-bg.e6df91ae401952e886eb.png",
-    "index.html": "./index.html",
-    "main.31525983.js.map": "./static/js/main.31525983.js.map",
-    "289.71e415f3.chunk.js.map": "./static/js/289.71e415f3.chunk.js.map",
-    "787.89ba96d7.chunk.js.map": "./static/js/787.89ba96d7.chunk.js.map"
+    "main.js": "/invapps/static/js/main.f3f813fd.js",
+    "static/js/289.71e415f3.chunk.js": "/invapps/static/js/289.71e415f3.chunk.js",
+    "static/js/787.89ba96d7.chunk.js": "/invapps/static/js/787.89ba96d7.chunk.js",
+    "static/media/auth-bg.png": "/invapps/static/media/auth-bg.e6df91ae401952e886eb.png",
+    "index.html": "/invapps/index.html",
+    "main.f3f813fd.js.map": "/invapps/static/js/main.f3f813fd.js.map",
+    "289.71e415f3.chunk.js.map": "/invapps/static/js/289.71e415f3.chunk.js.map",
+    "787.89ba96d7.chunk.js.map": "/invapps/static/js/787.89ba96d7.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.31525983.js"
+    "static/js/main.f3f813fd.js"
   ]
 }

@@ -15,6 +15,7 @@ import ModernLogin from "../views/auth/ModernLogin.js";
 import Signup from "../views/auth/Signup.js";
 import InvotraAdmin from "../views/admin/InvotraAdmin";
 import MyAccount from "../views/my-account/MyAccount";
+import Usage from "../views/usage/Usage";
 
 const ThemeRoutes = [
   {
@@ -37,6 +38,7 @@ const ThemeRoutes = [
       { path: "my-billing/:billId", element: <BillDetails /> },
       { path: "settings", element: <Settings /> },
       { path: "admin", element: <InvotraAdmin /> },
+      { path: "usage", element: <Usage /> },
     ],
   },
   {

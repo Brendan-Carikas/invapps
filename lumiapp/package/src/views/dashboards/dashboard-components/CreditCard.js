@@ -3,8 +3,8 @@ import { Card, CardContent, Typography, Box, LinearProgress, Button } from '@mui
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
 const CreditCard = ({ sx }) => {
-  const totalCredits = 1000;
-  const usedCredits = 350;
+  const totalCredits = 500;
+  const usedCredits = 120;
   const remainingCredits = totalCredits - usedCredits;
   const progress = (usedCredits / totalCredits) * 100;
 

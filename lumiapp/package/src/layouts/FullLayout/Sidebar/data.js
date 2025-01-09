@@ -2,6 +2,7 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
 const Menuitems = [
   {
@@ -13,6 +14,11 @@ const Menuitems = [
     title: "My Billing",
     icon: AccountBalanceIcon,
     href: "/app/my-billing",
+  },
+  {
+    title: "Usage",
+    icon: CreditScoreIcon,
+    href: "/app/usage",
   },
   {
     title: "Settings",

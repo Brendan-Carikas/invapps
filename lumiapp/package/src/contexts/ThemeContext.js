@@ -14,7 +14,7 @@ export const useTheme = () => {
 export const ThemeProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState(() => {
     const savedTheme = localStorage.getItem(THEME_KEY);
-    return savedTheme || 'core';
+    return savedTheme || 'modern';
   });
   const [unsavedChanges, setUnsavedChanges] = useState(false);
 

@@ -71,7 +71,7 @@ const Header = ({ sx, toggleSidebar }) => {
           sx={{ ml: 2 }}
         >
           <Avatar
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=faces"
+            src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&h=150&fit=crop&crop=faces"
             alt="User"
             sx={{
               width: "30px",
@@ -102,7 +102,7 @@ const Header = ({ sx, toggleSidebar }) => {
           >
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Avatar
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=faces"
+                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&h=150&fit=crop&crop=faces"
                 alt="User"
                 sx={{
                   width: "24px",

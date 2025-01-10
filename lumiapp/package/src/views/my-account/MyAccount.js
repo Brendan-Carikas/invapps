@@ -50,12 +50,15 @@ const MyAccount = () => {
               sx={{ 
                 width: 100, 
                 height: 100,
-                mr: 2,
                 bgcolor: 'primary.main',
-                fontSize: '2rem'
+                fontSize: '2rem',
+                mr: 2
+                
               }}
+              src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&h=150&fit=crop&crop=faces"
+              alt={formData.firstName || 'User'}
             >
-              {user?.firstName?.[0]}{user?.lastName?.[0]}
+              {!formData.firstName ? 'U' : formData.firstName[0]}
             </Avatar>
             <Box sx={{ flex: 1 }}>
               <Typography variant="h5">

@@ -28,6 +28,7 @@ import {
   Autocomplete,
   Paper,
   Tooltip,
+  Avatar,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -48,6 +49,7 @@ const Settings = () => {
   const [technicalInstructions, setTechnicalInstructions] = useState('');
   const [files, setFiles] = useState([]);
   const [logo, setLogo] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const [whatsappDialogOpen, setWhatsappDialogOpen] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [connectedNumber, setConnectedNumber] = useState('');
@@ -590,6 +592,17 @@ If these steps don't resolve the issue, let me know, and I can provide more deta
     setLogo(null);
   };
 
+  const handleProfileImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setProfileImage(URL.createObjectURL(file));
+    }
+  };
+
+  const handleProfileImageRemove = () => {
+    setProfileImage(null);
+  };
+
   const handleFileUpload = (event) => {
     const newFiles = Array.from(event.target.files).map(file => ({
       name: file.name,
@@ -723,6 +736,62 @@ If these steps don't resolve the issue, let me know, and I can provide more deta
                   </Typography>
                 </Box>
               </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" gutterBottom>
+                  Profile Image
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
+                  {profileImage ? (
+                    <Box
+                      component="img"
+                      src={profileImage}
+                      alt="Profile Image"
+                      sx={{ width: 440, height: 80, borderRadius: 1, objectFit: 'contain' }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        width: 440,
+                        height: 80,
+                        borderRadius: 1,
+                        border: '1px dashed',
+                        borderColor: 'divider',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <ImageIcon color="action" sx={{ fontSize: 40 }} />
+                    </Box>
+                  )}
+                  <Button
+                    component={profileImage ? "button" : "label"}
+                    variant="outlined"
+                    sx={{ textTransform: 'none' }}
+                    onClick={profileImage ? handleProfileImageRemove : undefined}
+                  >
+                    {profileImage ? 'Remove image' : 'Upload image'}
+                    {!profileImage && (
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        onChange={handleProfileImageChange}
+                      />
+                    )}
+                  </Button>
+                  <Typography variant="caption" color="textSecondary">
+                    Recommended size: 220px (maximum width) x 40px (minimum height) pixels. PNG or JPG format.
+                  </Typography>
+                </Box>
+              </Box>
+
+              
+
+             
+
+             
 
               
             </CardContent>

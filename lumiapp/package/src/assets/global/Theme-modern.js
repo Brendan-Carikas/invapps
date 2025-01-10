@@ -40,7 +40,7 @@ const modernTheme = createTheme({
   },
 
   shape: {
-    borderRadius: 25, // More rounded corners
+    borderRadius: 6, // More rounded corners
   },
   components: {
     MuiCssBaseline: {
@@ -116,7 +116,7 @@ const modernTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: "0px",
+          borderRadius: "12px",
           padding: "14px",
         
           boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",

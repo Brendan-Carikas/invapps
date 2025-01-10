@@ -39,6 +39,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 
 const Settings = () => {
   const [appName, setAppName] = useState('My AI Assistant');
@@ -632,7 +633,7 @@ If these steps don't resolve the issue, let me know, and I can provide more deta
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <WhatsAppIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h5">General</Typography>
+                <Typography variant="h5">Connect</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
               
@@ -732,7 +733,12 @@ If these steps don't resolve the issue, let me know, and I can provide more deta
         <Grid item xs={12}>
           <Card sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
             <CardHeader
-              title="Instructions for AI Assistant"
+              title={
+                <Box display="flex" alignItems="center">
+                  <SmartToyIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
+                  <Typography variant="h5">Instructions for AI Assistant</Typography>
+                </Box>
+              }
               action={
                 <Button 
                   variant="text" 

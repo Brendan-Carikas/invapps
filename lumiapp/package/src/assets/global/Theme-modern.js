@@ -40,7 +40,7 @@ const modernTheme = createTheme({
   },
 
   shape: {
-    borderRadius: 0, // More rounded corners
+    borderRadius: 25, // More rounded corners
   },
   components: {
     MuiCssBaseline: {
@@ -90,7 +90,7 @@ const modernTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          borderRadius: "0px",
+          borderRadius: "25px",
           fontWeight: 600,
           boxShadow: "none",
           "&:hover": {

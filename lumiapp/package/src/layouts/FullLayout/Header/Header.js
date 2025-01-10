@@ -110,7 +110,7 @@ const Header = ({ sx, toggleSidebar }) => {
                   mr: 1,
                 }}
               />
-              My Account
+              Profile
             </Box>
           </MenuItem>
           <Divider />

@@ -41,7 +41,7 @@ const MyAccount = () => {
 
   return (
     <Box sx={{ p: 3, maxWidth: '800px', margin: '0 auto' }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>My Account</Typography>
+      <Typography variant="h4" sx={{ mb: 3 }}>My Profile</Typography>
       
       <Card>
         <CardContent>

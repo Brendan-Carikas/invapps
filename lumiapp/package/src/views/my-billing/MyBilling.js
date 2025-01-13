@@ -92,9 +92,20 @@ const MyBilling = () => {
         <Grid item xs={12}>
           <Card sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" mb={2}>
-                <AccountBalanceIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h5">Billing Overview</Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                <Box display="flex" alignItems="center">
+                  <AccountBalanceIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
+                  <Typography variant="h5">Billing Overview</Typography>
+                </Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  sx={{ textTransform: 'none' }}
+                  onClick={() => navigate('/app/billing')}
+                >
+                  Upgrade plan
+                </Button>
               </Box>
               <Divider sx={{ mb: 3 }} />
               
@@ -112,47 +123,6 @@ const MyBilling = () => {
                   <Typography variant="h6">Monthly</Typography>
                 </Grid>
               </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Payment Methods */}
-        <Grid item xs={12} md={6}>
-          <Card sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
-            <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" mb={2}>
-                <PaymentIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
-                <Typography variant="h5">Payment Methods</Typography>
-              </Box>
-              <Divider sx={{ mb: 3 }} />
-              
-              <List>
-                {paymentMethods.map((method) => (
-                  <ListItem
-                    key={method.id}
-                    secondaryAction={
-                      <IconButton edge="end" size="small">
-                        <DeleteIcon />
-                      </IconButton>
-                    }
-                    sx={{ px: 0 }}
-                  >
-                    <ListItemText
-                      primary={`${method.type} ending in ${method.last4}`}
-                      secondary={`Expires ${method.expiry}`}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-              
-              <Button
-                variant="outlined"
-               
-                sx={{ mt: 2, textTransform: 'none' }}
-                onClick={() => setDialogOpen(true)}
-              >
-                Add payment method
-              </Button>
             </CardContent>
           </Card>
         </Grid>
@@ -200,7 +170,49 @@ const MyBilling = () => {
             </CardContent>
           </Card>
         </Grid>
+
+        {/* Payment Methods */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box display="flex" alignItems="center" mb={2}>
+                <PaymentIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
+                <Typography variant="h5">Payment Methods</Typography>
+              </Box>
+              <Divider sx={{ mb: 3 }} />
+              
+              <List>
+                {paymentMethods.map((method) => (
+                  <ListItem
+                    key={method.id}
+                    secondaryAction={
+                      <IconButton edge="end" size="small">
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                    sx={{ px: 0 }}
+                  >
+                    <ListItemText
+                      primary={`${method.type} ending in ${method.last4}`}
+                      secondary={`Expires ${method.expiry}`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+              
+              <Button
+                variant="outlined"
+                sx={{ mt: 2, textTransform: 'none' }}
+                onClick={() => setDialogOpen(true)}
+              >
+                Add payment method
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
+
+      
 
       {/* Add Payment Method Dialog */}
       <Dialog 

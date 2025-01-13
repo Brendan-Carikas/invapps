@@ -41,6 +41,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import LinkIcon from '@mui/icons-material/Link';
 
 const Settings = () => {
   const [appName, setAppName] = useState('My AI Assistant');
@@ -633,7 +634,7 @@ If these steps don't resolve the issue, let me know, and I can provide more deta
           <Card sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
             <CardContent sx={{ p: 3 }}>
               <Box display="flex" alignItems="center" mb={2}>
-                <WhatsAppIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
+                <LinkIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
                 <Typography variant="h5">Connect</Typography>
               </Box>
               <Divider sx={{ mb: 3 }} />
@@ -912,7 +913,7 @@ If these steps don't resolve the issue, let me know, and I can provide more deta
               onClick={handleSave}
               sx={{ textTransform: 'none' }}
             >
-              Save Changes
+              Save changes
             </Button>
           </Box>
         </Grid>

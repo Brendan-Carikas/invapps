@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Grid,
   Card,
@@ -10,10 +10,20 @@ import {
   Button,
   Divider,
   useTheme,
+  Menu,
+  MenuItem,
+  ToggleButton,
+  ToggleButtonGroup,
+  Stack,
+  TextField,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import DownloadIcon from '@mui/icons-material/Download';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import Chart from 'react-apexcharts';
+import { format, subMonths, parseISO } from 'date-fns';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -28,12 +38,119 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const Usage = () => {
   const theme = useTheme();
+  const [exportAnchorEl, setExportAnchorEl] = useState(null);
+  const [timeFilter, setTimeFilter] = useState('month');
+  const [startDate, setStartDate] = useState(format(subMonths(new Date(), 6), 'yyyy-MM-dd'));
+  const [endDate, setEndDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   
   // Calculate usage percentage
   const totalCredits = 500;
   const usedCredits = 120;
   const remainingCredits = totalCredits - usedCredits;
   const usagePercentage = (usedCredits / totalCredits) * 100;
+
+  // Generate sample usage data based on date range
+  const generateUsageData = () => {
+    const start = parseISO(startDate);
+    const end = parseISO(endDate);
+    const months = [];
+    let current = start;
+    
+    while (current <= end) {
+      months.push({
+        period: format(current, timeFilter === 'week' ? 'MMM d, yyyy' : 'MMM yyyy'),
+        usage: Math.floor(Math.random() * 100) + 20
+      });
+      current = new Date(current.setMonth(current.getMonth() + 1));
+    }
+    
+    return months;
+  };
+
+  const currentUsageData = generateUsageData();
+
+  const chartOptions = {
+    chart: {
+      type: 'bar',
+      toolbar: {
+        show: false
+      }
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        horizontal: false,
+        columnWidth: '60%',
+      }
+    },
+    colors: [theme.palette.primary.main],
+    dataLabels: {
+      enabled: false
+    },
+    xaxis: {
+      categories: currentUsageData.map(data => data.period),
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary
+        },
+        rotate: -45,
+        rotateAlways: true
+      }
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary
+        }
+      },
+      title: {
+        text: 'Credits Used',
+        style: {
+          color: theme.palette.text.secondary
+        }
+      }
+    },
+    grid: {
+      borderColor: theme.palette.divider
+    },
+    theme: {
+      mode: theme.palette.mode
+    }
+  };
+
+  const chartSeries = [{
+    name: 'Credits Used',
+    data: currentUsageData.map(data => data.usage)
+  }];
+
+  const handleExportClick = (event) => {
+    setExportAnchorEl(event.currentTarget);
+  };
+
+  const handleExportClose = () => {
+    setExportAnchorEl(null);
+  };
+
+  const handleExport = (format) => {
+    // Implement export logic here based on format
+    console.log(`Exporting usage data as ${format}`);
+    handleExportClose();
+  };
+
+  const handleTimeFilterChange = (event, newFilter) => {
+    if (newFilter !== null) {
+      setTimeFilter(newFilter);
+    }
+  };
+
+  const handleDateChange = (event, dateType) => {
+    const value = event.target.value;
+    if (dateType === 'start') {
+      setStartDate(value);
+    } else {
+      setEndDate(value);
+    }
+  };
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>
@@ -120,23 +237,100 @@ const Usage = () => {
                 sx={{ 
                   mt: 2,
                   '&:hover': {
-                    backgroundColor: theme.palette.secondary.light,
+                    backgroundColor: theme.palette.secondary.main,
                   },
                 }}
               >
-                Purchase Additional Credits
+                Purchase additional credits
               </Button>
             </CardContent>
           </StyledCard>
         </Grid>
 
-
-
-
-        
-
-        
+        {/* Monthly Usage Card */}
+        <Grid item xs={12}>
+          <StyledCard sx={{ border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 2 }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Box display="flex" alignItems="center">
+                  <BarChartIcon color="primary" sx={{ width: 40, height: 40, mr: 2 }} />
+                  <Typography variant="h5">Usage Over Time</Typography>
+                </Box>
+                <Box display="flex" gap={2}>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <TextField
+                      label="Start Date"
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => handleDateChange(e, 'start')}
+                      InputLabelProps={{ shrink: true }}
+                      size="small"
+                      sx={{ width: 150 }}
+                      inputProps={{
+                        max: endDate
+                      }}
+                    />
+                    <TextField
+                      label="End Date"
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => handleDateChange(e, 'end')}
+                      InputLabelProps={{ shrink: true }}
+                      size="small"
+                      sx={{ width: 150 }}
+                      inputProps={{
+                        min: startDate,
+                        max: format(new Date(), 'yyyy-MM-dd')
+                      }}
+                    />
+                  </Stack>
+                  <ToggleButtonGroup
+                    value={timeFilter}
+                    exclusive
+                    onChange={handleTimeFilterChange}
+                    size="small"
+                  >
+                    <ToggleButton value="week" sx={{ textTransform: 'none' }}>
+                      Weekly
+                    </ToggleButton>
+                    <ToggleButton value="month" sx={{ textTransform: 'none' }}>
+                      Monthly
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                  <Button
+                    variant="outlined"
+                    startIcon={<DownloadIcon />}
+                    onClick={handleExportClick}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    Export
+                  </Button>
+                </Box>
+              </Box>
+              
+              <Box sx={{ height: 400 }}>
+                <Chart
+                  options={chartOptions}
+                  series={chartSeries}
+                  type="bar"
+                  height="100%"
+                />
+              </Box>
+            </CardContent>
+          </StyledCard>
+        </Grid>
       </Grid>
+
+      {/* Export Menu */}
+      <Menu
+        anchorEl={exportAnchorEl}
+        open={Boolean(exportAnchorEl)}
+        onClose={handleExportClose}
+      >
+        <MenuItem onClick={() => handleExport('csv')}>Export as CSV</MenuItem>
+        <MenuItem onClick={() => handleExport('pdf')}>Export as PDF</MenuItem>
+        <MenuItem onClick={() => handleExport('excel')}>Export as Excel</MenuItem>
+      </Menu>
     </Container>
   );
 };

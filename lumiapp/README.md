@@ -1,6 +1,6 @@
-# LumiApp
+# Arto App
 
-A modern React-based dashboard application built with Material-UI and Supabase integration. LumiApp provides a sleek and intuitive interface for managing your business operations.
+A modern React-based dashboard application built with Material-UI and Supabase integration. Arto App provides a sleek and intuitive interface for managing your business operations.
 
 ## 🌟 Features
 
@@ -15,7 +15,7 @@ A modern React-based dashboard application built with Material-UI and Supabase i
 
 ## 🚀 Demo
 
-Check out the live demo: [LumiApp Demo](https://brendan-carikas.github.io/invapps)
+Check out the live demo: [Arto App Demo](https://brendan-carikas.github.io/invapps)
 
 ## 🛠️ Built With
 

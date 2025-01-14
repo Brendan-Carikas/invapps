@@ -140,6 +140,81 @@ Check out the live demo: [Arto App Demo](https://brendan-carikas.github.io/invap
    - Git flow for version control
    - Component-based architecture
 
+## 🎨 Theme System
+
+### Theme Variants
+1. **Modern Theme**
+   - Primary: Ethereal indigo (#4f46e5)
+   - Secondary: Ethereal violet (#8b5cf6)
+   - Background: Cool white (#f8fafc)
+   - Success: Vibrant emerald (#22c55e)
+   - Error: Deep rose (#e11d48)
+   - Custom shadows and typography
+
+2. **Dark Theme**
+   - Dark mode optimized
+   - Contrast-aware components
+   - Accessible color palette
+   - Custom dark mode shadows
+
+3. **Theme Features**
+   - RTL support
+   - Custom typography scales
+   - Responsive spacing system
+   - Component-specific theming
+   - Custom color palette
+   - Material Design foundations
+
+## 🏗️ Component Structure
+
+```
+src/
+├── assets/                 # Static assets and global styles
+│   ├── global/            # Global theme configurations
+│   └── images/            # Image assets
+├── components/            # Reusable UI components
+│   ├── common/           # Shared components
+│   └── dashboard/        # Dashboard-specific components
+├── contexts/             # React Context providers
+│   ├── ThemeContext.js   # Theme management
+│   └── AuthContext.js    # Authentication state
+├── layouts/              # Page layout components
+│   ├── FullLayout/      # Main application layout
+│   └── Header/          # Navigation components
+├── lib/                  # Utility functions and helpers
+├── routes/              # Route configurations
+└── views/               # Page components
+    ├── dashboards/      # Dashboard views
+    ├── auth/           # Authentication pages
+    ├── settings/       # Settings pages
+    └── usage/          # Usage tracking pages
+```
+
+### Key Components
+1. **Layout Components**
+   - FullLayout: Main application shell
+   - Header: Navigation and user menu
+   - Sidebar: Collapsible navigation menu
+   - Footer: Application footer
+
+2. **Dashboard Components**
+   - Usage tracking widgets
+   - Analytics charts
+   - Status cards
+   - Data tables
+
+3. **Authentication Components**
+   - Login forms
+   - Registration forms
+   - Password reset
+   - Profile management
+
+4. **Common Components**
+   - Custom buttons
+   - Form controls
+   - Modal dialogs
+   - Loading indicators
+
 ## 📝 License
 
 This project is proprietary software. All rights reserved.

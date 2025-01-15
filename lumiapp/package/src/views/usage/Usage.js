@@ -77,7 +77,8 @@ const Usage = () => {
       toolbar: {
         show: false
       },
-      background: 'transparent'
+      background: 'transparent',
+      fontFamily: theme.typography.fontFamily
     },
     plotOptions: {
       bar: {

@@ -23,7 +23,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Chart from 'react-apexcharts';
-import { format, subMonths, parseISO } from 'date-fns';
+import { format, subMonths, parseISO, addWeeks, addMonths, isBefore, isEqual } from 'date-fns';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -53,18 +53,20 @@ const Usage = () => {
   const generateUsageData = () => {
     const start = parseISO(startDate);
     const end = parseISO(endDate);
-    const months = [];
+    const periods = [];
     let current = start;
     
-    while (current <= end) {
-      months.push({
-        period: format(current, timeFilter === 'week' ? 'MMM d, yyyy' : 'MMM yyyy'),
+    while (isBefore(current, end) || isEqual(current, end)) {
+      periods.push({
+        period: format(current, timeFilter === 'week' ? 'MMM d' : 'MMM yyyy'),
         usage: Math.floor(Math.random() * 100) + 20
       });
-      current = new Date(current.setMonth(current.getMonth() + 1));
+      current = timeFilter === 'week' 
+        ? addWeeks(current, 1)
+        : addMonths(current, 1);
     }
     
-    return months;
+    return periods;
   };
 
   const currentUsageData = generateUsageData();
@@ -74,7 +76,8 @@ const Usage = () => {
       type: 'bar',
       toolbar: {
         show: false
-      }
+      },
+      background: 'transparent'
     },
     plotOptions: {
       bar: {
@@ -265,7 +268,12 @@ const Usage = () => {
                       onChange={(e) => handleDateChange(e, 'start')}
                       InputLabelProps={{ shrink: true }}
                       size="small"
-                      sx={{ width: 150 }}
+                      sx={{
+                        width: 150,
+                        '& input::-webkit-calendar-picker-indicator': {
+                          filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'none'
+                        }
+                      }}
                       inputProps={{
                         max: endDate
                       }}
@@ -277,7 +285,12 @@ const Usage = () => {
                       onChange={(e) => handleDateChange(e, 'end')}
                       InputLabelProps={{ shrink: true }}
                       size="small"
-                      sx={{ width: 150 }}
+                      sx={{
+                        width: 150,
+                        '& input::-webkit-calendar-picker-indicator': {
+                          filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'none'
+                        }
+                      }}
                       inputProps={{
                         min: startDate,
                         max: format(new Date(), 'yyyy-MM-dd')

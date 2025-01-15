@@ -104,7 +104,7 @@ const MyBilling = () => {
                   sx={{ textTransform: 'none' }}
                   onClick={() => navigate('/app/billing')}
                 >
-                  Upgrade plan
+                  Upgrade plans
                 </Button>
               </Box>
               <Divider sx={{ mb: 3 }} />
